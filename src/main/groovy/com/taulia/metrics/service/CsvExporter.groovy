@@ -2,11 +2,25 @@ package com.taulia.metrics.service
 
 import com.taulia.metrics.model.Organization
 import com.taulia.metrics.model.User
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
-import java.math.RoundingMode
 import java.text.SimpleDateFormat
 
 class CsvExporter {
+
+  public static final Logger logger = LoggerFactory.getLogger(CsvExporter)
+
+  List<CsvColumn> columns = [
+    new NameColumn(),
+    new UsernameColumn(),
+    new TeamColumn(),
+    new RoleColumn(),
+    new UserPullRequestColumn(),
+    new TeamPullRequestColumn(),
+    new PercentOfTeamTotalColumn(),
+    new FairShareColumn()
+  ]
 
   void buildCsvFile(Organization organization, String pathName) {
     def timestamp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date())
@@ -17,42 +31,15 @@ class CsvExporter {
     organization.teams*.users.flatten().each { user ->
       outputFile << buildCsvLine(user)
     }
+    logger.info "exported file ${fileName}"
   }
 
-  private static String buildCsvHeader() {
-    "First,Last,Github,Team,Role,PRs,Team PRs, Percent of Team, Fair Share Percentage\n"
+  String buildCsvHeader() {
+    columns*.columnHeader.join(',') + '\n'
   }
 
-  private String buildCsvLine(User user) {
-    [
-      user.firstName,
-      user.lastName,
-      user.userName,
-      user.team.name,
-      user.role,
-      user.numberOfPullRequests,
-      user.team.users*.numberOfPullRequests.sum(),
-      getPercentOfTeamTotal(user),
-      getFairSharePercentage(user)
-    ].join(',') + '\n'
+  String buildCsvLine(User user) {
+    columns*.getColumnValue(user).join(',') + '\n'
   }
-
-  BigDecimal getPercentOfTeamTotal(User user) {
-    int teamPullRequestCount = (int) user.team.users*.numberOfPullRequests.sum()
-    if (!teamPullRequestCount) { return BigDecimal.ZERO }
-    return BigDecimal.valueOf(user.numberOfPullRequests)
-      .divide(BigDecimal.valueOf(teamPullRequestCount), 2, RoundingMode.HALF_UP)
-  }
-
-  BigDecimal getFairSharePercentage(User user) {
-    if (!user.softwareEngineer) { return BigDecimal.ZERO }
-    def softwareEngineers = user.team.users.findAll({ it.softwareEngineer })
-    int developerPullRequestTotal = (int) softwareEngineers*.numberOfPullRequests.sum()
-    if (developerPullRequestTotal == 0) { return BigDecimal.ZERO }
-    double fairShareAmount = developerPullRequestTotal / softwareEngineers.size()
-    return BigDecimal.valueOf(user.numberOfPullRequests)
-      .divide(BigDecimal.valueOf(fairShareAmount), 2, RoundingMode.HALF_UP)
-  }
-
 
 }

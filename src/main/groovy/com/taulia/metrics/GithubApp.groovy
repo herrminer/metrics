@@ -1,10 +1,8 @@
 package com.taulia.metrics
 
 import com.taulia.metrics.model.Organization
-import com.taulia.metrics.model.User
 import com.taulia.metrics.service.CsvExporter
 import com.taulia.metrics.service.OrganizationService
-
 import com.taulia.metrics.service.PullRequestSearchService
 import com.taulia.metrics.service.SearchParameters
 import org.slf4j.Logger

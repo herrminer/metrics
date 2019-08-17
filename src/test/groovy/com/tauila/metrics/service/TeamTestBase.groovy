@@ -1,0 +1,30 @@
+package com.tauila.metrics.service
+
+import com.taulia.metrics.model.Team
+import com.taulia.metrics.model.User
+import com.taulia.metrics.service.CsvExporter
+import spock.lang.Specification
+
+class TeamTestBase extends Specification {
+
+  User user
+  User user2
+  User user3
+
+  def setup() {
+    Team team = new Team(name: "team 1")
+
+    user = new User(role: 'Engineer')
+    user.numberOfPullRequests = 5
+    team.addUser(user)
+
+    user2 = new User(role: 'Manager')
+    user2.numberOfPullRequests = 8
+    team.addUser(user2)
+
+    user3 = new User(role: 'Quality')
+    user3.numberOfPullRequests = 3
+    team.addUser(user3)
+  }
+
+}
