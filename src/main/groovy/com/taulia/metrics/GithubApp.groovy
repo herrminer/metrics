@@ -27,7 +27,7 @@ class GithubApp {
 
     SearchParameters searchParameters = new SearchParameters(
       fromDate: "2019-02-01",
-      toDate: "2019-02-15",
+      toDate: "2019-02-28",
       chunkSize: 45,
     )
 
@@ -42,7 +42,7 @@ class GithubApp {
         def searchResponse = searchService.searchPullRequests(searchParameters)
 
         if (searchResponse.message) {
-          println "ERROR MESSAGE: ${searchResponse.message}"
+          logger.error "ERROR MESSAGE: ${searchResponse.message}"
           System.exit(1)
         }
 
@@ -52,7 +52,7 @@ class GithubApp {
             logger.debug "adding to total for username ${pullRequest.user.login}, user ${user}"
             user.numberOfPullRequests++
           } else {
-            logger.info "UNKNOWN USER: ${pullRequest.user.login}"
+            logger.debug "UNKNOWN USER: ${pullRequest.user.login}"
           }
         }
 

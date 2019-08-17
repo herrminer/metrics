@@ -4,11 +4,13 @@ import com.taulia.metrics.model.Organization
 import com.taulia.metrics.model.User
 
 import java.math.RoundingMode
+import java.text.SimpleDateFormat
 
 class CsvExporter {
 
   void buildCsvFile(Organization organization, String pathName) {
-    def outputFile = new File(pathName)
+    def fileName = "${pathName}-${new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date())}"
+    def outputFile = new File(fileName)
     if (outputFile.exists()) outputFile.delete()
     outputFile << buildCsvHeader()
     organization.teams*.users.flatten().each { user ->
