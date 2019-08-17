@@ -7,8 +7,12 @@ import com.taulia.metrics.service.OrganizationService
 
 import com.taulia.metrics.service.PullRequestSearchService
 import com.taulia.metrics.service.SearchParameters
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 class GithubApp {
+
+  private static Logger logger = LoggerFactory.getLogger(GithubApp)
 
   static void main(String[] args) {
 
@@ -34,7 +38,7 @@ class GithubApp {
       boolean moreResultsAvailable = true
 
       while (moreResultsAvailable) {
-        println "searching from ${searchParameters.fromDate} to ${searchParameters.toDate}, page ${searchParameters.page}"
+        logger.info "searching from ${searchParameters.fromDate} to ${searchParameters.toDate}, page ${searchParameters.page}"
         def searchResponse = searchService.searchPullRequests(searchParameters)
 
         if (searchResponse.message) {
@@ -45,8 +49,10 @@ class GithubApp {
         searchResponse.items.each { pullRequest ->
           def user = organization.findUser(pullRequest.user.login)
           if (user) {
-            println "adding to total for username ${pullRequest.user.login}, user ${user}"
+            logger.debug "adding to total for username ${pullRequest.user.login}, user ${user}"
             user.numberOfPullRequests++
+          } else {
+            logger.info "UNKNOWN USER: ${pullRequest.user.login}"
           }
         }
 
