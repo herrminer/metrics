@@ -11,12 +11,15 @@ import com.taulia.metrics.service.SearchParameters
 class GithubApp {
 
   static void main(String[] args) {
-    if (!System.getProperty('credentials')) {
+
+    def credentials = System.getProperty('credentials')
+
+    if (!credentials) {
       println "sorry, no 'credentials' system property"
       System.exit(1)
     }
 
-    PullRequestSearchService searchService = new PullRequestSearchService()
+    PullRequestSearchService searchService = new PullRequestSearchService(credentials)
 
     SearchParameters searchParameters = new SearchParameters(
       fromDate: "2019-02-01",

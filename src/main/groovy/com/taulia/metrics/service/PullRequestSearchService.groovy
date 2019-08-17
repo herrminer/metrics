@@ -8,17 +8,22 @@ import org.apache.http.client.methods.HttpGet
 import org.apache.http.impl.client.DefaultHttpClient
 
 class PullRequestSearchService {
+
+  PullRequestSearchService(String credentials) {
+    this.encodedCredentials = credentials.bytes.encodeBase64().toString()
+  }
+
+  String encodedCredentials
   String lastResponse
 
   DefaultHttpClient httpClient = new DefaultHttpClient()
-  String credentials = System.getProperty('credentials').bytes.encodeBase64().toString()
   ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
   PullRequestSearchResponse searchPullRequests(SearchParameters searchParameters) {
     String url = "https://api.github.com/search/issues?${searchParameters.buildParameters()}"
     HttpGet get = new HttpGet(url)
 
-    get.addHeader('Authorization', "Basic ${credentials}")
+    get.addHeader('Authorization', "Basic ${encodedCredentials}")
 
     def response = httpClient.execute(get)
     HttpEntity entity = response.getEntity()
