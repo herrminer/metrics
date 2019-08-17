@@ -27,7 +27,7 @@ class GithubApp {
 
     SearchParameters searchParameters = new SearchParameters(
       fromDate: "2019-02-01",
-      toDate: "2019-02-28",
+      toDate: "2019-07-31",
       chunkSize: 45,
     )
 
@@ -66,7 +66,7 @@ class GithubApp {
       }
     }
 
-    new CsvExporter().buildCsvFile(organization, "metrics.csv")
+    new CsvExporter().buildCsvFile(organization, "${System.getenv('HOME')}/Downloads/metrics")
 
   }
 }

@@ -9,7 +9,8 @@ import java.text.SimpleDateFormat
 class CsvExporter {
 
   void buildCsvFile(Organization organization, String pathName) {
-    def fileName = "${pathName}-${new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date())}"
+    def timestamp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date())
+    def fileName = "${pathName}-${timestamp}.csv"
     def outputFile = new File(fileName)
     if (outputFile.exists()) outputFile.delete()
     outputFile << buildCsvHeader()
