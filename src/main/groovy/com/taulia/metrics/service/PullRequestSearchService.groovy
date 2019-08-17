@@ -9,15 +9,15 @@ import org.apache.http.impl.client.DefaultHttpClient
 
 class PullRequestSearchService {
 
-  PullRequestSearchService(String credentials) {
-    this.encodedCredentials = credentials.bytes.encodeBase64().toString()
-  }
-
   String encodedCredentials
   String lastResponse
 
   DefaultHttpClient httpClient = new DefaultHttpClient()
   ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+
+  PullRequestSearchService(String credentials) {
+    this.encodedCredentials = credentials.bytes.encodeBase64().toString()
+  }
 
   PullRequestSearchResponse searchPullRequests(SearchParameters searchParameters) {
     String url = "https://api.github.com/search/issues?${searchParameters.buildParameters()}"
