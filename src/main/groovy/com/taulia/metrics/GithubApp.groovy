@@ -1,5 +1,13 @@
 package com.taulia.metrics
 
+import com.taulia.metrics.model.Organization
+import com.taulia.metrics.model.User
+import com.taulia.metrics.service.CsvExporter
+import com.taulia.metrics.service.OrganizationService
+
+import com.taulia.metrics.service.PullRequestSearchService
+import com.taulia.metrics.service.SearchParameters
+
 class GithubApp {
 
   static void main(String[] args) {
@@ -12,14 +20,13 @@ class GithubApp {
 
     SearchParameters searchParameters = new SearchParameters(
       fromDate: "2019-02-01",
-      toDate: "2019-07-31",
+      toDate: "2019-02-15",
       chunkSize: 45,
     )
 
-    ProcessingContext context = new ProcessingContext(users: getUserMap(), searchParameters: searchParameters)
+    Organization organization = OrganizationService.organization
 
     while (searchParameters.advanceChunkDates()) {
-
 
       boolean moreResultsAvailable = true
 
@@ -32,12 +39,17 @@ class GithubApp {
           System.exit(1)
         }
 
-        processSearchResults(searchResponse, context)
+        searchResponse.items.each { pullRequest ->
+          def user = organization.findUser(pullRequest.user.login)
+          if (user) {
+            println "adding to total for username ${pullRequest.user.login}, user ${user}"
+            user.numberOfPullRequests++
+          }
+        }
 
         moreResultsAvailable = searchResponse.totalCount > (searchParameters.page * searchParameters.pageSize)
 
         if (moreResultsAvailable) {
-//          println "${searchResponse.totalCount} > ${searchParameters.page * searchParameters.pageSize}, so fetching more"
           searchParameters.incrementPage()
         }
 
@@ -45,36 +57,7 @@ class GithubApp {
       }
     }
 
-    doOutput(context)
+    new CsvExporter().buildCsvFile(organization, "metrics.csv")
 
-  }
-
-  static void processSearchResults(PullRequestSearchResponse response, ProcessingContext context) {
-    response.items.each { pullRequest ->
-
-      def user = context.users.get(pullRequest.user.login)
-
-      if (user) {
-        user.numberOfPullRequests++
-        if (user.softwareEngineer)
-          user.team.numberOfPullRequests++
-      }
-
-    }
-  }
-
-  static void doOutput(ProcessingContext context) {
-    def outputFile = new File("pr-metrics.csv")
-    if (outputFile.exists()) outputFile.delete()
-    outputFile << User.buildCsvHeader()
-    context.users.each { k, user ->
-      outputFile << user.buildCsvLine()
-    }
-  }
-
-  static Map<String, User> getUserMap() {
-    UserService.getUsers().collectEntries {
-      [it.userName, it]
-    }
   }
 }

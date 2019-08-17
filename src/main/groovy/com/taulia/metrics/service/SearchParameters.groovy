@@ -1,4 +1,4 @@
-package com.taulia.metrics
+package com.taulia.metrics.service
 
 import groovy.time.TimeCategory
 

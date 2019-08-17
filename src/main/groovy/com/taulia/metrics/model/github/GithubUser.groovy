@@ -1,4 +1,4 @@
-package com.taulia.metrics
+package com.taulia.metrics.model.github
 
 class GithubUser {
   /*        "login": "trailrunner-taulia",

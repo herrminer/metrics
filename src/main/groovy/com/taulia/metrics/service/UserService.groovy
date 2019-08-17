@@ -1,4 +1,7 @@
-package com.taulia.metrics
+package com.taulia.metrics.service
+
+import com.taulia.metrics.model.Team
+import com.taulia.metrics.model.User
 
 class UserService {
   static List<User> getUsers() {

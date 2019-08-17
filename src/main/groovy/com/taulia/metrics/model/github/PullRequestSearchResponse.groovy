@@ -1,6 +1,7 @@
-package com.taulia.metrics
+package com.taulia.metrics.model.github
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.taulia.metrics.model.github.PullRequest
 
 class PullRequestSearchResponse {
   /**

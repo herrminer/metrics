@@ -1,4 +1,4 @@
-package com.taulia.metrics
+package com.taulia.metrics.model.github
 
 class PullRequest {
   /*      "url": "https://api.github.com/repos/taulia/app-buyer/issues/288",

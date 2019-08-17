@@ -1,6 +1,6 @@
-package com.tauila.metrics
+package com.tauila.metrics.service
 
-import com.taulia.metrics.SearchParameters
+import com.taulia.metrics.service.SearchParameters
 import spock.lang.Specification
 
 class SearchParametersSpec extends Specification {
