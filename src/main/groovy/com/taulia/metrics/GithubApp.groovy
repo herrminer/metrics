@@ -59,8 +59,6 @@ class GithubApp {
         if (moreResultsAvailable) {
           searchParameters.incrementPage()
         }
-
-        sleep(1000)
       }
     }
 
