@@ -37,22 +37,26 @@ class PullRequestSearchService {
     String responseText = getCachedResponse(searchParameters)
 
     if (!responseText) {
-      String url = "https://api.github.com/search/issues?${searchParameters.buildParameters()}"
-      HttpGet get = new HttpGet(url)
-
-      get.addHeader('Authorization', "Basic ${encodedCredentials}")
-
-      def response = httpClient.execute(get)
-      HttpEntity entity = response.getEntity()
-      lastResponse = entity.getContent().text
-      responseText = lastResponse
-
+      responseText = searchGithubApi(searchParameters)
       cacheResponse(searchParameters, responseText)
-
       sleep(1000) // so we don't exceed github's rate limit :(
     }
 
     objectMapper.readValue(responseText, PullRequestSearchResponse)
+  }
+
+  private String searchGithubApi(SearchParameters searchParameters) {
+    String url = "https://api.github.com/search/issues?${searchParameters.buildParameters()}"
+
+    HttpGet get = new HttpGet(url)
+    get.addHeader('Authorization', "Basic ${encodedCredentials}")
+
+    def response = httpClient.execute(get)
+    HttpEntity entity = response.getEntity()
+
+    lastResponse = entity.getContent().text
+
+    lastResponse
   }
 
   String getCachedResponse(SearchParameters parameters) {
