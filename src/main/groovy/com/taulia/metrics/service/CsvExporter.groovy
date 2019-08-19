@@ -16,10 +16,11 @@ class CsvExporter {
     new UsernameColumn(),
     new TeamColumn(),
     new RoleColumn(),
-    new UserPullRequestColumn(),
+    new PullRequestsColumn(),
     new TeamPullRequestColumn(),
     new PercentOfTeamTotalColumn(),
     new FairShareColumn(),
+    new AverageColumn(),
     new ImpactColumn()
   ]
 
