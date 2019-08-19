@@ -8,8 +8,12 @@ import com.taulia.metrics.model.github.PullRequestSearchResponse
 import org.apache.http.HttpEntity
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.impl.client.DefaultHttpClient
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 class PullRequestSearchService {
+
+  private static Logger logger = LoggerFactory.getLogger(PullRequestSearchService)
 
   private static final String CACHE_DIRECTORY = "${System.getenv('HOME')}/metric-cache"
 
@@ -46,6 +50,8 @@ class PullRequestSearchService {
   }
 
   private String searchGithubApi(SearchParameters searchParameters) {
+    logger.info "searching github from ${searchParameters.fromDate} to ${searchParameters.toDate}, page ${searchParameters.page}"
+
     String url = "https://api.github.com/search/issues?${searchParameters.buildParameters()}"
 
     HttpGet get = new HttpGet(url)
@@ -60,12 +66,8 @@ class PullRequestSearchService {
   }
 
   String getCachedResponse(SearchParameters parameters) {
-    String cachedResponseText = null
     File cachedResponse = new File(getCacheFilename(parameters))
-    if (cachedResponse.exists()) {
-      cachedResponseText = cachedResponse.text
-    }
-    cachedResponseText
+    cachedResponse.exists() ? cachedResponse.text : null
   }
 
   boolean cacheResponse(SearchParameters parameters, String responseText) {

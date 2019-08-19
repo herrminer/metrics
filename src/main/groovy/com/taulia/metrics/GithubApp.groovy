@@ -36,7 +36,6 @@ class GithubApp {
       boolean moreResultsAvailable = true
 
       while (moreResultsAvailable) {
-        logger.info "searching from ${searchParameters.fromDate} to ${searchParameters.toDate}, page ${searchParameters.page}"
         def searchResponse = searchService.searchPullRequests(searchParameters)
 
         if (searchResponse.message) {
