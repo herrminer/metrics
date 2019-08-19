@@ -1,5 +1,7 @@
 package com.taulia.metrics.model
 
+import com.taulia.metrics.model.github.PullRequest
+
 class User {
   String firstName
   String lastName
@@ -7,6 +9,7 @@ class User {
   Team team
   String role
   int numberOfPullRequests
+  Collection<PullRequest> pullRequests = []
 
   boolean isSoftwareEngineer() {
     role in ['Manager', 'Engineer']

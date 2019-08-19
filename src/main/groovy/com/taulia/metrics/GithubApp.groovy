@@ -3,7 +3,9 @@ package com.taulia.metrics
 import com.taulia.metrics.model.Organization
 import com.taulia.metrics.service.CsvExporter
 import com.taulia.metrics.service.OrganizationService
+import com.taulia.metrics.service.PullRequestRepository
 import com.taulia.metrics.service.PullRequestSearchService
+import com.taulia.metrics.service.RepositoryCsvExporter
 import com.taulia.metrics.service.SearchParameters
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -30,6 +32,7 @@ class GithubApp {
     )
 
     Organization organization = OrganizationService.organization
+    PullRequestRepository pullRequestRepository = new PullRequestRepository()
 
     while (searchParameters.advanceChunkDates()) {
 
@@ -46,8 +49,10 @@ class GithubApp {
         searchResponse.items.each { pullRequest ->
           def user = organization.findUser(pullRequest.user.login)
           if (user) {
-            logger.debug "adding to total for username ${pullRequest.user.login}, user ${user}"
+            logger.debug "adding pull request for user ${pullRequest.user.login}, user ${user}"
+            user.pullRequests.add(pullRequest)
             user.numberOfPullRequests++
+            pullRequestRepository.addPullRequest(user, pullRequest)
           } else {
             logger.debug "UNKNOWN USER: ${pullRequest.user.login}"
           }
@@ -61,7 +66,8 @@ class GithubApp {
       }
     }
 
-    new CsvExporter().buildCsvFile(organization, "${System.getenv('HOME')}/Downloads/metrics")
-
+    def exportDirectory = "${System.getenv('HOME')}/Downloads"
+    new CsvExporter().buildCsvFile(organization, exportDirectory)
+    new RepositoryCsvExporter(pullRequestRepository, exportDirectory).buildCsvFile()
   }
 }

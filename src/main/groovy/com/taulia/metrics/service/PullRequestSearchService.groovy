@@ -50,6 +50,12 @@ class PullRequestSearchService {
   }
 
   private String searchGithubApi(SearchParameters searchParameters) {
+    /*
+    Interesting headers:
+    X-RateLimit-Limit: 30
+    X-RateLimit-Remaining: 29
+    X-RateLimit-Reset: 1566230079 (in Epoch seconds, * 1000 for millis)
+    */
     logger.info "searching github from ${searchParameters.fromDate} to ${searchParameters.toDate}, page ${searchParameters.page}"
 
     String url = "https://api.github.com/search/issues?${searchParameters.buildParameters()}"
@@ -59,6 +65,7 @@ class PullRequestSearchService {
 
     def response = httpClient.execute(get)
     HttpEntity entity = response.getEntity()
+    response.getHeaders()
 
     lastResponse = entity.getContent().text
 

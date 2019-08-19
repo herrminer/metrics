@@ -24,9 +24,9 @@ class CsvExporter {
     new ImpactColumn()
   ]
 
-  void buildCsvFile(Organization organization, String pathName) {
+  void buildCsvFile(Organization organization, String exportDirectory) {
     def timestamp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date())
-    def fileName = "${pathName}-${timestamp}.csv"
+    def fileName = "${exportDirectory}/metrics-${timestamp}.csv"
     def outputFile = new File(fileName)
     if (outputFile.exists()) outputFile.delete()
     outputFile << buildCsvHeader()

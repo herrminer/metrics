@@ -1,6 +1,6 @@
 package com.taulia.metrics.model
 
-class Team {
+class Team implements Comparable<Team> {
   String name
 
   Organization organization
@@ -29,9 +29,14 @@ class Team {
 
 
   @Override
-  public String toString() {
+  String toString() {
     return "Team{" +
       "name='" + name + '\'' +
       '}';
+  }
+
+  @Override
+  int compareTo(Team o) {
+    return this.name <=> o.name
   }
 }

@@ -1,5 +1,7 @@
 package com.taulia.metrics.model.github
 
+import com.fasterxml.jackson.annotation.JsonProperty
+
 class PullRequest {
   /*      "url": "https://api.github.com/repos/taulia/app-buyer/issues/288",
       "repository_url": "https://api.github.com/repos/taulia/app-buyer",
@@ -12,7 +14,19 @@ class PullRequest {
       "number": 288,
       "title": "Support additional subdomain depth for global session cookie",
 */
+  String id
   String url
   String title
   GithubUser user
+
+  /**
+   * Example: https://api.github.com/repos/taulia/app-buyer
+   */
+  @JsonProperty('repository_url')
+  String repositoryUrl
+
+  String getRepositoryName() {
+    if (!repositoryUrl) { return null }
+    repositoryUrl.substring(repositoryUrl.lastIndexOf('/') + 1, repositoryUrl.length())
+  }
 }
