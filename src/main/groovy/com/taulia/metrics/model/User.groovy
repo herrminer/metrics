@@ -13,7 +13,7 @@ class User {
   }
 
   boolean isFullTimeEngineer() {
-    role in ['Manager', 'Engineer']
+    role in ['Engineer']
   }
 
   boolean equals(o) {

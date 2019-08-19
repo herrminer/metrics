@@ -19,7 +19,8 @@ class CsvExporter {
     new UserPullRequestColumn(),
     new TeamPullRequestColumn(),
     new PercentOfTeamTotalColumn(),
-    new FairShareColumn()
+    new FairShareColumn(),
+    new ImpactColumn()
   ]
 
   void buildCsvFile(Organization organization, String pathName) {

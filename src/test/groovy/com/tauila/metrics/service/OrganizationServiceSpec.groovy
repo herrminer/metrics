@@ -12,7 +12,7 @@ class OrganizationServiceSpec extends Specification {
     then:
     organization
     !organization.teams.empty
-    organization.teams.every { !it.users.empty }
+    organization.teams.every { !it.users.empty && it.organization }
   }
 
 }

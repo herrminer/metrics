@@ -44,7 +44,9 @@ class OrganizationService {
       }
     }
 
-    organization.teams = teams.values().toList()
+    teams.values().each {
+      organization.addTeam(it)
+    }
 
     organization
   }
