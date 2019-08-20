@@ -2,6 +2,7 @@ package com.taulia.metrics
 
 import com.taulia.metrics.model.Organization
 import com.taulia.metrics.service.CsvExporter
+import com.taulia.metrics.service.GithubApiClient
 import com.taulia.metrics.service.OrganizationService
 import com.taulia.metrics.service.PullRequestRepository
 import com.taulia.metrics.service.PullRequestSearchService
@@ -23,7 +24,8 @@ class GithubApp {
       System.exit(1)
     }
 
-    PullRequestSearchService searchService = new PullRequestSearchService(credentials)
+    GithubApiClient githubApiClient = new GithubApiClient(credentials)
+    PullRequestSearchService searchService = new PullRequestSearchService(githubApiClient)
 
     SearchParameters searchParameters = new SearchParameters(
       fromDate: "2019-02-01",
