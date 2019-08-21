@@ -19,7 +19,7 @@ class PullRequest {
   String title
   int number
   GithubUser user
-  List<PullRequestFile> files
+  PullRequestFile[] files
 
   /**
    * Example: https://api.github.com/repos/taulia/app-buyer
