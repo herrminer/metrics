@@ -3,6 +3,8 @@ package com.tauila.metrics.service
 import com.taulia.metrics.model.Organization
 import com.taulia.metrics.model.Team
 import com.taulia.metrics.model.User
+import com.taulia.metrics.model.github.PullRequest
+import com.taulia.metrics.model.github.PullRequestFile
 import spock.lang.Specification
 
 class TeamTestBase extends Specification {
@@ -19,6 +21,11 @@ class TeamTestBase extends Specification {
 
     user = new User(userName: 'engineer 1', role: 'Engineer')
     user.numberOfPullRequests = 5
+    user.pullRequests = [
+      new PullRequest(files: [new PullRequestFile(), new PullRequestFile()]),
+      new PullRequest(files: [new PullRequestFile(), new PullRequestFile()]),
+      new PullRequest(files: [new PullRequestFile(), new PullRequestFile(), new PullRequestFile()]),
+    ]
     team.addUser(user)
 
     user2 = new User(userName: 'manager 1', role: 'Manager')
