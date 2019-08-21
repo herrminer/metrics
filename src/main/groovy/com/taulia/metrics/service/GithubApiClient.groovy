@@ -35,7 +35,7 @@ class GithubApiClient {
     String responseText = getCachedResponseText(url)
 
     if (responseText) {
-      logger.debug "returning cached response for url ${url}"
+      logger.debug "cached ${url}"
     }
 
     if (!responseText) {
@@ -54,7 +54,7 @@ class GithubApiClient {
     def response = httpClient.execute(get)
     HttpEntity entity = response.getEntity()
 
-    logger.debug "REQUEST URL: ${url}"
+    logger.info "API request: ${url}"
 
     if (logger.isDebugEnabled()) {
       logger.debug "RESPONSE HEADERS"
