@@ -17,6 +17,8 @@ class GithubApp {
 
   static void main(String[] args) {
 
+    MemoryUtility.printMemoryStatistics('start')
+
     def credentials = System.getProperty('credentials')
 
     if (!credentials) {
@@ -71,5 +73,7 @@ class GithubApp {
     def exportDirectory = "${System.getenv('HOME')}/Downloads"
     new CsvExporter().buildCsvFile(organization, exportDirectory)
     new RepositoryCsvExporter(pullRequestRepository, exportDirectory).buildCsvFile()
+
+    MemoryUtility.printMemoryStatistics('end')
   }
 }
