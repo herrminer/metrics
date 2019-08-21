@@ -34,6 +34,10 @@ class GithubApiClient {
 
     String responseText = getCachedResponseText(url)
 
+    if (responseText) {
+      logger.debug "returning cached response for url ${url}"
+    }
+
     if (!responseText) {
       responseText = getHttpResponseText(url)
       cacheResponseText(url, responseText)
@@ -61,7 +65,7 @@ class GithubApiClient {
 
     def responseText = entity.getContent().text
 
-    logger.debug "RESPONSE BODY:\n${responseText}"
+    logger.trace "RESPONSE BODY:\n${responseText}"
 
     responseText
   }
