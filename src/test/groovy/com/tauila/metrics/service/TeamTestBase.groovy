@@ -22,9 +22,9 @@ class TeamTestBase extends Specification {
     user = new User(userName: 'engineer 1', role: 'Engineer')
     user.numberOfPullRequests = 5
     user.pullRequests = [
-      new PullRequest(files: [new PullRequestFile(), new PullRequestFile()]),
-      new PullRequest(files: [new PullRequestFile(), new PullRequestFile()]),
-      new PullRequest(files: [new PullRequestFile(), new PullRequestFile(), new PullRequestFile()]),
+      new PullRequest(files: [prf(1,2,3), prf(4,5,6)]),
+      new PullRequest(files: [prf(7,8,9), prf(10,11,12)]),
+      new PullRequest(files: [prf(13,14,15), prf(16, 17, 18), prf(19,20,21)]),
     ]
     team.addUser(user)
 
@@ -44,6 +44,14 @@ class TeamTestBase extends Specification {
     organization = new Organization()
     organization.addTeam(team)
     organization.addTeam(team2)
+  }
+
+  PullRequestFile prf(int additions, int changes, int deletions) {
+    new PullRequestFile(
+      additions: additions,
+      changes: changes,
+      deletions: deletions
+    )
   }
 
 }

@@ -20,6 +20,7 @@ class CsvExporter {
     new TeamPullRequestColumn(),
     new PercentOfTeamTotalColumn(),
     new AveragePullRequestFilesColumn(),
+    new AveragePrSizeColumn(),
     new FairShareColumn(),
     new AverageColumn(),
     new ImpactColumn()
