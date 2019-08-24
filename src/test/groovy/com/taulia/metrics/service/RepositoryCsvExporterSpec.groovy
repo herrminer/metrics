@@ -5,6 +5,8 @@ import com.taulia.metrics.model.User
 import com.taulia.metrics.model.github.PullRequest
 import spock.lang.Specification
 
+import java.text.SimpleDateFormat
+
 class RepositoryCsvExporterSpec extends Specification {
 
   RepositoryCsvExporter exporter
@@ -21,9 +23,11 @@ class RepositoryCsvExporterSpec extends Specification {
     User user = new User(userName: 'user1', team: team1)
     User user2 = new User(userName: 'user2', team: team2)
 
-    repository.addPullRequest(user, new PullRequest(repositoryUrl: 'taulia/app-buyer'))
-    repository.addPullRequest(user2, new PullRequest(repositoryUrl: 'taulia/app-buyer'))
-    repository.addPullRequest(user, new PullRequest(repositoryUrl: 'taulia/app-buyer'))
+    SimpleDateFormat format = new SimpleDateFormat('yyyy-MM-dd')
+    Date dateCreated = format.parse('2019-01-01')
+    repository.addPullRequest(user, new PullRequest(repositoryUrl: 'taulia/app-buyer', dateCreated: dateCreated))
+    repository.addPullRequest(user2, new PullRequest(repositoryUrl: 'taulia/app-buyer', dateCreated: dateCreated))
+    repository.addPullRequest(user, new PullRequest(repositoryUrl: 'taulia/app-buyer', dateCreated: dateCreated))
 
     exporter = new RepositoryCsvExporter(repository, '/tmp')
   }

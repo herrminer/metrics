@@ -21,6 +21,12 @@ class PullRequest {
   GithubUser user
   PullRequestFile[] files
 
+  @JsonProperty('created_at')
+  Date dateCreated
+
+  @JsonProperty('closed_at')
+  Date dateClosed
+
   /**
    * Example: https://api.github.com/repos/taulia/app-buyer
    */
