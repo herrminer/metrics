@@ -1,4 +1,4 @@
-package com.taulia.metrics.service
+package com.taulia.metrics.service.reports
 
 import com.taulia.metrics.model.Organization
 import com.taulia.metrics.model.User

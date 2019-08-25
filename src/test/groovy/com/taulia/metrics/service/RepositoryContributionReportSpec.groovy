@@ -3,13 +3,14 @@ package com.taulia.metrics.service
 import com.taulia.metrics.model.Team
 import com.taulia.metrics.model.User
 import com.taulia.metrics.model.github.PullRequest
+import com.taulia.metrics.service.reports.RepositoryContributionReport
 import spock.lang.Specification
 
 import java.text.SimpleDateFormat
 
-class RepositoryCsvExporterSpec extends Specification {
+class RepositoryContributionReportSpec extends Specification {
 
-  RepositoryCsvExporter exporter
+  RepositoryContributionReport exporter
 
   Team team1
   Team team2
@@ -29,7 +30,7 @@ class RepositoryCsvExporterSpec extends Specification {
     repository.addPullRequest(user2, new PullRequest(repositoryUrl: 'taulia/app-buyer', dateCreated: dateCreated))
     repository.addPullRequest(user, new PullRequest(repositoryUrl: 'taulia/app-buyer', dateCreated: dateCreated))
 
-    exporter = new RepositoryCsvExporter(repository, '/tmp')
+    exporter = new RepositoryContributionReport(repository, '/tmp')
   }
 
   def "BuildCsvFile"() {

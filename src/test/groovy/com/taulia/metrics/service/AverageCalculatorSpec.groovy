@@ -1,6 +1,7 @@
 package com.taulia.metrics.service
 
 import com.tauila.metrics.service.TeamTestBase
+import com.taulia.metrics.service.reports.AverageCalculator
 
 class AverageCalculatorSpec extends TeamTestBase {
 

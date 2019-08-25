@@ -1,12 +1,12 @@
 package com.taulia.metrics
 
 import com.taulia.metrics.model.Organization
-import com.taulia.metrics.service.CsvExporter
+import com.taulia.metrics.service.reports.PullRequestStatisticsReport
 import com.taulia.metrics.service.GithubApiClient
 import com.taulia.metrics.service.OrganizationService
 import com.taulia.metrics.service.PullRequestRepository
 import com.taulia.metrics.service.PullRequestSearchService
-import com.taulia.metrics.service.RepositoryCsvExporter
+import com.taulia.metrics.service.reports.RepositoryContributionReport
 import com.taulia.metrics.service.SearchParameters
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -71,8 +71,8 @@ class GithubApp {
     }
 
     def exportDirectory = "${System.getenv('HOME')}/Downloads"
-    new CsvExporter().buildCsvFile(organization, exportDirectory)
-    new RepositoryCsvExporter(pullRequestRepository, exportDirectory).buildCsvFile()
+    new PullRequestStatisticsReport().buildCsvFile(organization, exportDirectory)
+    new RepositoryContributionReport(pullRequestRepository, exportDirectory).buildCsvFile()
 
     MemoryUtility.printMemoryStatistics('end')
   }

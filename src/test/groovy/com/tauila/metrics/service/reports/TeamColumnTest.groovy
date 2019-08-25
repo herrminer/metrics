@@ -1,7 +1,7 @@
-package com.tauila.metrics.service
+package com.tauila.metrics.service.reports
 
-
-import com.taulia.metrics.service.TeamColumn
+import com.tauila.metrics.service.TeamTestBase
+import com.taulia.metrics.service.reports.TeamColumn
 
 class TeamColumnTest extends TeamTestBase {
 

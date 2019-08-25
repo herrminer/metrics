@@ -1,19 +1,19 @@
-package com.taulia.metrics.service
+package com.taulia.metrics.service.reports
 
-
+import com.taulia.metrics.service.PullRequestRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 import java.text.SimpleDateFormat
 
-class RepositoryCsvExporter {
+class RepositoryContributionReport {
 
-  public static final Logger logger = LoggerFactory.getLogger(RepositoryCsvExporter)
+  public static final Logger logger = LoggerFactory.getLogger(RepositoryContributionReport)
 
   PullRequestRepository pullRequestRepository
   String exportDirectory
 
-  RepositoryCsvExporter(PullRequestRepository pullRequestRepository, String exportDirectory) {
+  RepositoryContributionReport(PullRequestRepository pullRequestRepository, String exportDirectory) {
     this.pullRequestRepository = pullRequestRepository
     this.exportDirectory = exportDirectory
   }

@@ -1,4 +1,4 @@
-package com.taulia.metrics.service
+package com.taulia.metrics.service.reports
 
 import com.taulia.metrics.model.Organization
 import com.taulia.metrics.model.User
@@ -7,11 +7,11 @@ import org.slf4j.LoggerFactory
 
 import java.text.SimpleDateFormat
 
-class CsvExporter {
+class PullRequestStatisticsReport {
 
-  public static final Logger logger = LoggerFactory.getLogger(CsvExporter)
+  public static final Logger logger = LoggerFactory.getLogger(PullRequestStatisticsReport)
 
-  List<CsvColumn> columns = [
+  List<ReportColumn> columns = [
     new NameColumn(),
     new UsernameColumn(),
     new TeamColumn(),

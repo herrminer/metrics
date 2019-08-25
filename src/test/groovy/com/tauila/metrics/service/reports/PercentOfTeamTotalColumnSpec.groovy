@@ -1,6 +1,7 @@
-package com.tauila.metrics.service
+package com.tauila.metrics.service.reports
 
-import com.taulia.metrics.service.PercentOfTeamTotalColumn
+import com.tauila.metrics.service.TeamTestBase
+import com.taulia.metrics.service.reports.PercentOfTeamTotalColumn
 
 class PercentOfTeamTotalColumnSpec extends TeamTestBase {
 

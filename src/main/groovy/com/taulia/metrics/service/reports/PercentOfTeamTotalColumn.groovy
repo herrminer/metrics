@@ -1,10 +1,11 @@
-package com.taulia.metrics.service
+package com.taulia.metrics.service.reports
 
 import com.taulia.metrics.model.User
+import com.taulia.metrics.service.reports.ReportColumn
 
 import java.math.RoundingMode
 
-class PercentOfTeamTotalColumn implements CsvColumn {
+class PercentOfTeamTotalColumn implements ReportColumn {
 
   @Override
   String getColumnHeader() {

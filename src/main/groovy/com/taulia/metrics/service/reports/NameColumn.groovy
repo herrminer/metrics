@@ -1,8 +1,9 @@
-package com.taulia.metrics.service
+package com.taulia.metrics.service.reports
 
 import com.taulia.metrics.model.User
+import com.taulia.metrics.service.reports.ReportColumn
 
-class NameColumn implements CsvColumn {
+class NameColumn implements ReportColumn {
 
   @Override
   String getColumnHeader() {
