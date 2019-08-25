@@ -6,8 +6,10 @@ import com.taulia.metrics.service.GithubApiClient
 import com.taulia.metrics.service.OrganizationService
 import com.taulia.metrics.service.PullRequestRepository
 import com.taulia.metrics.service.PullRequestSearchService
+import com.taulia.metrics.service.reports.ReportingContext
 import com.taulia.metrics.service.reports.RepositoryContributionReport
 import com.taulia.metrics.service.SearchParameters
+import com.taulia.metrics.service.reports.UserPullRequestsByMonthReport
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -71,8 +73,17 @@ class GithubApp {
     }
 
     def exportDirectory = "${System.getenv('HOME')}/Downloads"
+
+    ReportingContext reportingContext = new ReportingContext(
+      searchParameters: searchParameters,
+      organization: organization,
+      pullRequestRepository: pullRequestRepository,
+      exportDirectory: exportDirectory
+    )
+
     new PullRequestStatisticsReport().buildCsvFile(organization, exportDirectory)
     new RepositoryContributionReport(pullRequestRepository, exportDirectory).buildCsvFile()
+    new UserPullRequestsByMonthReport(reportingContext).buildCsv()
 
     MemoryUtility.printMemoryStatistics('end')
   }

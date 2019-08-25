@@ -39,7 +39,8 @@ class PullRequestRepository {
   }
 
   Collection<PullRequest> getPullRequests(User user, Date date) {
-    pullRequestsByUserAndMonth.get(getUserMonthKey(user, date))
+    def pullRequests = pullRequestsByUserAndMonth.get(getUserMonthKey(user, date))
+    pullRequests ?: []
   }
 
   String getUserMonthKey(User user, Date date) {
