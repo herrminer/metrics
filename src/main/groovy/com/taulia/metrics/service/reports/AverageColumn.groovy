@@ -6,7 +6,7 @@ class AverageColumn implements ReportColumn {
 
   @Override
   String getColumnHeader() {
-    'FT Average'
+    'Full-time Average'
   }
 
   @Override

@@ -13,16 +13,16 @@ class PullRequestStatisticsReport {
 
   List<ReportColumn> columns = [
     new NameColumn(),
-    new UsernameColumn(),
+//    new UsernameColumn(),
     new TeamColumn(),
     new RoleColumn(),
     new PullRequestsColumn(),
+    new AverageColumn(),
     new TeamPullRequestColumn(),
     new PercentOfTeamTotalColumn(),
     new AveragePullRequestFilesColumn(),
     new AveragePrSizeColumn(),
     new FairShareColumn(),
-    new AverageColumn(),
     new ImpactColumn()
   ]
 
