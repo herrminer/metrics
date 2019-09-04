@@ -13,7 +13,6 @@ class ReportServiceSpec extends Specification {
     when:
     def reports = ReportService.getReports(reportingContext)
 
-
     then:
     reports
     reports.size() == 3
