@@ -6,6 +6,7 @@ import com.taulia.metrics.service.GithubApiClient
 import com.taulia.metrics.service.OrganizationService
 import com.taulia.metrics.service.PullRequestRepository
 import com.taulia.metrics.service.PullRequestSearchService
+import com.taulia.metrics.service.reports.ReportService
 import com.taulia.metrics.service.reports.ReportingContext
 import com.taulia.metrics.service.reports.RepositoryContributionReport
 import com.taulia.metrics.service.SearchParameters
@@ -32,8 +33,8 @@ class GithubApp {
     PullRequestSearchService searchService = new PullRequestSearchService(githubApiClient)
 
     SearchParameters searchParameters = new SearchParameters(
-      fromDate: "2019-02-01",
-      toDate: "2019-07-31",
+      fromDate: "2019-08-01",
+      toDate: "2019-08-31",
       chunkSize: 45,
     )
 
@@ -81,9 +82,9 @@ class GithubApp {
       exportDirectory: exportDirectory
     )
 
-    new PullRequestStatisticsReport().buildCsvFile(organization, exportDirectory)
-    new RepositoryContributionReport(pullRequestRepository, exportDirectory).buildCsvFile()
-    new UserPullRequestsByMonthReport(reportingContext).buildCsv()
+    ReportService.getReports(reportingContext).each {
+      it.buildCsvFile()
+    }
 
     MemoryUtility.printMemoryStatistics('end')
   }

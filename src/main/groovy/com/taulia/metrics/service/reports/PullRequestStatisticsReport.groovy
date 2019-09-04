@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory
 
 import java.text.SimpleDateFormat
 
-class PullRequestStatisticsReport {
+class PullRequestStatisticsReport extends MetricReport {
 
   public static final Logger logger = LoggerFactory.getLogger(PullRequestStatisticsReport)
 
@@ -26,16 +26,22 @@ class PullRequestStatisticsReport {
     new ImpactColumn()
   ]
 
-  void buildCsvFile(Organization organization, String exportDirectory) {
+  PullRequestStatisticsReport(ReportingContext reportingContext) {
+    super(reportingContext)
+  }
+
+  @Override
+  File buildCsvFile() {
     def timestamp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date())
-    def fileName = "${exportDirectory}/metrics-${timestamp}.csv"
+    def fileName = "${reportingContext.exportDirectory}/metrics-${timestamp}.csv"
     def outputFile = new File(fileName)
     if (outputFile.exists()) outputFile.delete()
     outputFile << buildCsvHeader()
-    organization.teams*.users.flatten().each { user ->
+    reportingContext.organization.teams*.users.flatten().each { user ->
       outputFile << buildCsvLine(user)
     }
     logger.info "exported file ${fileName}"
+    outputFile
   }
 
   String buildCsvHeader() {

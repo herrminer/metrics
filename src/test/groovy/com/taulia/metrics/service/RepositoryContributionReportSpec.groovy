@@ -3,6 +3,7 @@ package com.taulia.metrics.service
 import com.taulia.metrics.model.Team
 import com.taulia.metrics.model.User
 import com.taulia.metrics.model.github.PullRequest
+import com.taulia.metrics.service.reports.ReportingContext
 import com.taulia.metrics.service.reports.RepositoryContributionReport
 import spock.lang.Specification
 
@@ -30,7 +31,11 @@ class RepositoryContributionReportSpec extends Specification {
     repository.addPullRequest(user2, new PullRequest(repositoryUrl: 'taulia/app-buyer', dateCreated: dateCreated))
     repository.addPullRequest(user, new PullRequest(repositoryUrl: 'taulia/app-buyer', dateCreated: dateCreated))
 
-    exporter = new RepositoryContributionReport(repository, '/tmp')
+    ReportingContext reportingContext = new ReportingContext(
+        pullRequestRepository: repository,
+        exportDirectory: '/tmp'
+    )
+    exporter = new RepositoryContributionReport(reportingContext)
   }
 
   def "BuildCsvFile"() {

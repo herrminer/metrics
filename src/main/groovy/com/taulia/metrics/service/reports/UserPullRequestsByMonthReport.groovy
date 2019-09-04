@@ -6,19 +6,19 @@ import org.slf4j.LoggerFactory
 
 import java.text.SimpleDateFormat
 
-class UserPullRequestsByMonthReport {
+class UserPullRequestsByMonthReport extends MetricReport {
 
   private static final Logger logger = LoggerFactory.getLogger(UserPullRequestsByMonthReport)
 
-  ReportingContext reportingContext
   SimpleDateFormat readFormat = new SimpleDateFormat('yyyy-MM')
   SimpleDateFormat writeFormat = new SimpleDateFormat('MMMMM')
 
   UserPullRequestsByMonthReport(ReportingContext reportingContext) {
-    this.reportingContext = reportingContext
+    super(reportingContext)
   }
 
-  File buildCsv() {
+  @Override
+  File buildCsvFile() {
     def timestamp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date())
     def fileName = "${reportingContext.exportDirectory}/user-pull-requests-by-month-${timestamp}.csv"
     def outputFile = new File(fileName)
