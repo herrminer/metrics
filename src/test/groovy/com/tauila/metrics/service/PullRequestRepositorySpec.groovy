@@ -55,4 +55,11 @@ class PullRequestRepositorySpec extends Specification {
     repository.getPullRequests('app-login', team).size() == 1
   }
 
+  def "get pull requests by repository and user"() {
+    expect:
+    repository.getPullRequests('app-buyer', user).size() == 2
+    repository.getPullRequests('app-login', user).size() == 1
+    !repository.getPullRequests('app-foobar', user)
+  }
+
 }

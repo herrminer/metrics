@@ -15,7 +15,7 @@ class ReportServiceSpec extends Specification {
 
     then:
     reports
-    reports.size() == 3
+    reports.size() == 4
     reports.every { it.reportingContext }
   }
 

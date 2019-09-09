@@ -5,7 +5,8 @@ class ReportService {
   static Class<? extends MetricReport>[] reportClasses = [
       PullRequestStatisticsReport,
       RepositoryContributionReport,
-      UserPullRequestsByMonthReport
+      UserPullRequestsByMonthReport,
+      UserPullRequestByRepositoryReport
   ]
 
   static Collection<MetricReport> getReports(ReportingContext reportingContext) {
