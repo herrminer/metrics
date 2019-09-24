@@ -15,21 +15,20 @@ class GithubApp {
 
     MemoryUtility.printMemoryStatistics('start')
 
-    def credentials = System.getProperty('credentials')
+    Properties props = new Properties()
+    props.load(this.getResourceAsStream('/metrics.properties') as InputStream)
+
+    def credentials = props.getProperty('credentials')
 
     if (!credentials) {
-      println "sorry, no 'credentials' system property"
+      println "sorry, no 'credentials' entry in metrics.properties"
       System.exit(1)
     }
 
     GithubApiClient githubApiClient = new GithubApiClient(credentials)
     PullRequestSearchService searchService = new PullRequestSearchService(githubApiClient)
 
-    SearchParameters searchParameters = new SearchParameters(
-      fromDate: "2019-09-01",
-      toDate: "2019-09-30",
-      chunkSize: 45,
-    )
+    SearchParameters searchParameters = new SearchParameters(props)
 
     Organization organization = OrganizationService.organization
     PullRequestRepository pullRequestRepository = new PullRequestRepository()

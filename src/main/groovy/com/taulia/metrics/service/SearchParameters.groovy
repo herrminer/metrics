@@ -23,6 +23,16 @@ class SearchParameters {
   // used to work around the 1000-item search limit on Github
   int chunkSize = 30 // days
 
+  SearchParameters(Properties properties) {
+    fromDate = properties.getProperty('fromDate')
+    toDate = properties.getProperty('toDate')
+
+    def chunkSize = properties.getProperty('chunkSize')
+    if (chunkSize) {
+      this.chunkSize = Integer.parseInt(chunkSize)
+    }
+  }
+
   void initialize() {
     if (!initialized) {
       originalFromDate = Date.parse(DATE_FORMAT, fromDate)
