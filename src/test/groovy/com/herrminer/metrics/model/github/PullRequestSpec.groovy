@@ -5,10 +5,10 @@ import spock.lang.Specification
 class PullRequestSpec extends Specification {
 
   def "GetRepositoryName happy path"() {
-    PullRequest pullRequest = new PullRequest(repositoryUrl: 'https://api.github.com/repos/taulia/app-buyer')
+    PullRequest pullRequest = new PullRequest(repositoryUrl: 'https://api.github.com/repos/herrminer/app-name')
 
     expect:
-    pullRequest.repositoryName == 'app-buyer'
+    pullRequest.repositoryName == 'app-name'
   }
 
   def "GetRepositoryName no value"() {

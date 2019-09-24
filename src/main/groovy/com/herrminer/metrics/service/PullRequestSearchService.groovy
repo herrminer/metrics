@@ -20,7 +20,7 @@ class PullRequestSearchService {
     def response = githubApiClient.getApiResponse(pathAndQueryString, PullRequestSearchResponse)
     response.items.each { pullRequest ->
       pullRequest.files = githubApiClient.getApiResponse(
-        "/repos/taulia/${pullRequest.repositoryName}/pulls/${pullRequest.number}/files", PullRequestFile[])
+        "/repos/${searchParameters.org}/${pullRequest.repositoryName}/pulls/${pullRequest.number}/files", PullRequestFile[])
     }
     response
   }

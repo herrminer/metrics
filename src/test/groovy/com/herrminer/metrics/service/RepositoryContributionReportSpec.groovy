@@ -27,9 +27,9 @@ class RepositoryContributionReportSpec extends Specification {
 
     SimpleDateFormat format = new SimpleDateFormat('yyyy-MM-dd')
     Date dateCreated = format.parse('2019-01-01')
-    repository.addPullRequest(user, new PullRequest(repositoryUrl: 'taulia/app-buyer', dateCreated: dateCreated))
-    repository.addPullRequest(user2, new PullRequest(repositoryUrl: 'taulia/app-buyer', dateCreated: dateCreated))
-    repository.addPullRequest(user, new PullRequest(repositoryUrl: 'taulia/app-buyer', dateCreated: dateCreated))
+    repository.addPullRequest(user, new PullRequest(repositoryUrl: 'herrminer/app-name', dateCreated: dateCreated))
+    repository.addPullRequest(user2, new PullRequest(repositoryUrl: 'herrminer/app-name', dateCreated: dateCreated))
+    repository.addPullRequest(user, new PullRequest(repositoryUrl: 'herrminer/app-name', dateCreated: dateCreated))
 
     ReportingContext reportingContext = new ReportingContext(
         pullRequestRepository: repository,
@@ -51,7 +51,7 @@ class RepositoryContributionReportSpec extends Specification {
 
   def "BuildCsvLine"() {
     expect:
-    report.buildCsvLine('app-buyer') == 'app-buyer,2,1\n'
+    report.buildCsvLine('app-name') == 'app-name,2,1\n'
   }
 
 }

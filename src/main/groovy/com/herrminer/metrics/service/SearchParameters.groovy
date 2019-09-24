@@ -8,6 +8,8 @@ class SearchParameters {
 
   boolean initialized = false
 
+  String org
+
   String fromDate
   String toDate
 
@@ -33,6 +35,11 @@ class SearchParameters {
     def chunkSize = properties.getProperty('chunkSize')
     if (chunkSize) {
       this.chunkSize = Integer.parseInt(chunkSize)
+    }
+
+    org = properties.getProperty("org")
+    if (!org) {
+      throw new RuntimeException("no 'org' property in metrics.properties")
     }
   }
 
@@ -76,7 +83,7 @@ class SearchParameters {
   }
 
   String buildParameters() {
-    "per_page=${pageSize}&page=${page}&q=org:taulia+is:pr+is:merged+created:${fromDate}..${toDate}"
+    "per_page=${pageSize}&page=${page}&q=org:${org}+is:pr+is:merged+created:${fromDate}..${toDate}"
   }
 
   void incrementPage() {

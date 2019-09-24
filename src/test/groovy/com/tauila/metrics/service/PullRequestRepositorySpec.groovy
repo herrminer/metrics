@@ -22,7 +22,7 @@ class PullRequestRepositorySpec extends Specification {
     user = new User(userName: 'dude', team: team)
 
     PullRequest pullRequest = new PullRequest(
-      repositoryUrl: 'http://foo.com/app-buyer',
+      repositoryUrl: 'http://foo.com/app-name',
       dateCreated: dateFormat.parse('2019-03-04')
     )
     PullRequest pullRequest2 = new PullRequest(
@@ -30,7 +30,7 @@ class PullRequestRepositorySpec extends Specification {
       dateCreated: dateFormat.parse('2019-02-04')
     )
     PullRequest pullRequest3 = new PullRequest(
-      repositoryUrl: 'http://foo.com/app-buyer',
+      repositoryUrl: 'http://foo.com/app-name',
       dateCreated: dateFormat.parse('2019-03-28')
     )
 
@@ -51,13 +51,13 @@ class PullRequestRepositorySpec extends Specification {
 
   def "get pull requests by repository and team"() {
     expect:
-    repository.getPullRequests('app-buyer', team).size() == 2
+    repository.getPullRequests('app-name', team).size() == 2
     repository.getPullRequests('app-login', team).size() == 1
   }
 
   def "get pull requests by repository and user"() {
     expect:
-    repository.getPullRequests('app-buyer', user).size() == 2
+    repository.getPullRequests('app-name', user).size() == 2
     repository.getPullRequests('app-login', user).size() == 1
     !repository.getPullRequests('app-foobar', user)
   }
