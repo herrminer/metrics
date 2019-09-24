@@ -19,14 +19,11 @@ class UserPullRequestsByMonthReport extends MetricReport {
 
   @Override
   File buildCsvFile() {
-    def timestamp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date())
-    def fileName = "${reportingContext.exportDirectory}/user-pull-requests-by-month-${timestamp}.csv"
-    def outputFile = new File(fileName)
+    def outputFile = createReportFile('user-prs-by-month')
     outputFile << buildCsvHeader()
     reportingContext.organization.teams*.users.flatten().each { user ->
       outputFile << buildCsvLine(user)
     }
-    logger.info "exported user pull request by month repor ${fileName}"
     outputFile
   }
 

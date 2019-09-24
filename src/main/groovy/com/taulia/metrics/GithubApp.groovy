@@ -33,8 +33,8 @@ class GithubApp {
     PullRequestSearchService searchService = new PullRequestSearchService(githubApiClient)
 
     SearchParameters searchParameters = new SearchParameters(
-      fromDate: "2019-08-01",
-      toDate: "2019-08-31",
+      fromDate: "2019-09-01",
+      toDate: "2019-09-30",
       chunkSize: 45,
     )
 
@@ -83,7 +83,8 @@ class GithubApp {
     )
 
     ReportService.getReports(reportingContext).each {
-      it.buildCsvFile()
+      def exportedFile = it.buildCsvFile()
+      logger.info "exported ${exportedFile.absolutePath}"
     }
 
     MemoryUtility.printMemoryStatistics('end')

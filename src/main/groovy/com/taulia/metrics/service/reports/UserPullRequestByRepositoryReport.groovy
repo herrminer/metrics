@@ -18,17 +18,13 @@ class UserPullRequestByRepositoryReport extends MetricReport {
   File buildCsvFile() {
     List<User> users = reportingContext.organization.teams*.users.flatten()
 
-    def timestamp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date())
-    def fileName = "${reportingContext.exportDirectory}/user-pr-by-repo-${timestamp}.csv"
-    def outputFile = new File(fileName)
+    def outputFile = createReportFile('user-prs-by-repo')
 
     outputFile << buildCsvHeader(users)
 
     reportingContext.pullRequestRepository.repositories.each { repository ->
       outputFile << buildCsvLine(repository, users)
     }
-
-    logger.info "exported user pull request by repository report ${fileName}"
 
     outputFile
   }

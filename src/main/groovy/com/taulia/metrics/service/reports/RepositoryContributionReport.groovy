@@ -14,14 +14,11 @@ class RepositoryContributionReport extends MetricReport {
   }
 
   File buildCsvFile() {
-    def timestamp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date())
-    def fileName = "${reportingContext.exportDirectory}/repositories-${timestamp}.csv"
-    def outputFile = new File(fileName)
+    def outputFile = createReportFile('repositories')
     outputFile << buildCsvHeader()
     reportingContext.pullRequestRepository.repositories.each { repositoryName ->
       outputFile << buildCsvLine(repositoryName)
     }
-    logger.info "exported repositories file ${fileName}"
     outputFile
   }
 

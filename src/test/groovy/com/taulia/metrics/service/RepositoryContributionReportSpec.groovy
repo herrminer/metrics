@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat
 
 class RepositoryContributionReportSpec extends Specification {
 
-  RepositoryContributionReport exporter
+  RepositoryContributionReport report
 
   Team team1
   Team team2
@@ -33,24 +33,25 @@ class RepositoryContributionReportSpec extends Specification {
 
     ReportingContext reportingContext = new ReportingContext(
         pullRequestRepository: repository,
-        exportDirectory: '/tmp'
+        exportDirectory: '/tmp',
+        searchParameters: new SearchParameters(fromDate: '2019-01-01', toDate: '2019-01-31')
     )
-    exporter = new RepositoryContributionReport(reportingContext)
+    report = new RepositoryContributionReport(reportingContext)
   }
 
   def "BuildCsvFile"() {
     expect:
-    exporter.buildCsvFile()
+    report.buildCsvFile()
   }
 
   def "BuildCsvHeader"() {
     expect:
-    exporter.buildCsvHeader() == 'repository,team1,team2\n'
+    report.buildCsvHeader() == 'repository,team1,team2\n'
   }
 
   def "BuildCsvLine"() {
     expect:
-    exporter.buildCsvLine('app-buyer') == 'app-buyer,2,1\n'
+    report.buildCsvLine('app-buyer') == 'app-buyer,2,1\n'
   }
 
 }

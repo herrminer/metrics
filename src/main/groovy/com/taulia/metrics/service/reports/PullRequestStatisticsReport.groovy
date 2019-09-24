@@ -32,15 +32,11 @@ class PullRequestStatisticsReport extends MetricReport {
 
   @Override
   File buildCsvFile() {
-    def timestamp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date())
-    def fileName = "${reportingContext.exportDirectory}/metrics-${timestamp}.csv"
-    def outputFile = new File(fileName)
-    if (outputFile.exists()) outputFile.delete()
+    def outputFile = createReportFile('pull-requests')
     outputFile << buildCsvHeader()
     reportingContext.organization.teams*.users.flatten().each { user ->
       outputFile << buildCsvLine(user)
     }
-    logger.info "exported file ${fileName}"
     outputFile
   }
 
