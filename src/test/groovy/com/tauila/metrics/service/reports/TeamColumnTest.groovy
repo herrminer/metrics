@@ -1,7 +1,7 @@
-package com.tauila.metrics.service.reports
+package com.herrminer.metrics.service.reports
 
-import com.tauila.metrics.service.TeamTestBase
-import com.taulia.metrics.service.reports.TeamColumn
+import com.herrminer.metrics.service.TeamTestBase
+import com.herrminer.metrics.service.reports.TeamColumn
 
 class TeamColumnTest extends TeamTestBase {
 

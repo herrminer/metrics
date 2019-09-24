@@ -1,6 +1,6 @@
-package com.tauila.metrics.service
+package com.herrminer.metrics.service
 
-import com.taulia.metrics.service.OrganizationService
+import com.herrminer.metrics.service.OrganizationService
 import spock.lang.Specification
 
 class OrganizationServiceSpec extends Specification {

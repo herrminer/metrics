@@ -1,6 +1,6 @@
-package com.tauila.metrics.service
+package com.herrminer.metrics.service
 
-import com.taulia.metrics.service.GithubApiClient
+import com.herrminer.metrics.service.GithubApiClient
 import spock.lang.Specification
 
 class GithubApiClientSpec extends Specification {

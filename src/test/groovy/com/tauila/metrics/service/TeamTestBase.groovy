@@ -1,11 +1,11 @@
-package com.tauila.metrics.service
+package com.herrminer.metrics.service
 
-import com.taulia.metrics.model.Organization
-import com.taulia.metrics.model.Role
-import com.taulia.metrics.model.Team
-import com.taulia.metrics.model.User
-import com.taulia.metrics.model.github.PullRequest
-import com.taulia.metrics.model.github.PullRequestFile
+import com.herrminer.metrics.model.Organization
+import com.herrminer.metrics.model.Role
+import com.herrminer.metrics.model.Team
+import com.herrminer.metrics.model.User
+import com.herrminer.metrics.model.github.PullRequest
+import com.herrminer.metrics.model.github.PullRequestFile
 import spock.lang.Specification
 
 class TeamTestBase extends Specification {

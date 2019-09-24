@@ -1,15 +1,18 @@
-plugins {
-  id 'groovy'
-  id 'java'
-}
+apply plugin: 'groovy'
+apply plugin: 'java'
 
-group 'com.taulia'
+group 'com.herrminer'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
 repositories {
   mavenCentral()
+}
+
+task metrics(type:JavaExec) {
+  main = 'com.herrminer.metrics.GithubApp'
+  classpath = sourceSets.main.runtimeClasspath
 }
 
 dependencies {
@@ -33,4 +36,10 @@ dependencies {
   testCompile group: 'junit', name: 'junit', version: '4.12'
 // https://mvnrepository.com/artifact/org.spockframework/spock-core
   testCompile group: 'org.spockframework', name: 'spock-core', version: '1.1-groovy-2.4'
+}
+
+jar {
+  manifest {
+    attributes 'Main-Class': 'com.herrminer.metrics.GithubApp'
+  }
 }

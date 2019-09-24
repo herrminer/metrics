@@ -1,9 +1,9 @@
-package com.tauila.metrics.service
+package com.herrminer.metrics.service
 
-import com.taulia.metrics.model.Team
-import com.taulia.metrics.model.User
-import com.taulia.metrics.model.github.PullRequest
-import com.taulia.metrics.service.PullRequestRepository
+import com.herrminer.metrics.model.Team
+import com.herrminer.metrics.model.User
+import com.herrminer.metrics.model.github.PullRequest
+import com.herrminer.metrics.service.PullRequestRepository
 import spock.lang.Specification
 
 import java.text.SimpleDateFormat

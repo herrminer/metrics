@@ -1,6 +1,6 @@
-package com.tauila.metrics.service.reports
+package com.herrminer.metrics.service.reports
 
-import com.taulia.metrics.service.reports.PullRequestStatisticsReport
+import com.herrminer.metrics.service.reports.PullRequestStatisticsReport
 import spock.lang.Specification
 
 class PullRequestStatisticsReportSpec extends Specification {
