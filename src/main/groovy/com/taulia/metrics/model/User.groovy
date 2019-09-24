@@ -7,16 +7,16 @@ class User {
   String lastName
   String userName
   Team team
-  String role
+  Role role
   int numberOfPullRequests
   Collection<PullRequest> pullRequests = []
 
   boolean isSoftwareEngineer() {
-    role in ['Manager', 'Engineer']
+    role.isSoftwareEngineer()
   }
 
   boolean isFullTimeEngineer() {
-    role in ['Engineer']
+    role.isFullTimeEngineer()
   }
 
   boolean equals(o) {

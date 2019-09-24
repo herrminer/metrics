@@ -1,16 +1,9 @@
 package com.taulia.metrics
 
 import com.taulia.metrics.model.Organization
-import com.taulia.metrics.service.reports.PullRequestStatisticsReport
-import com.taulia.metrics.service.GithubApiClient
-import com.taulia.metrics.service.OrganizationService
-import com.taulia.metrics.service.PullRequestRepository
-import com.taulia.metrics.service.PullRequestSearchService
+import com.taulia.metrics.service.*
 import com.taulia.metrics.service.reports.ReportService
 import com.taulia.metrics.service.reports.ReportingContext
-import com.taulia.metrics.service.reports.RepositoryContributionReport
-import com.taulia.metrics.service.SearchParameters
-import com.taulia.metrics.service.reports.UserPullRequestsByMonthReport
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 

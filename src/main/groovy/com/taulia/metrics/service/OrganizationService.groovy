@@ -1,6 +1,7 @@
 package com.taulia.metrics.service
 
 import com.taulia.metrics.model.Organization
+import com.taulia.metrics.model.Role
 import com.taulia.metrics.model.Team
 import com.taulia.metrics.model.User
 
@@ -29,7 +30,7 @@ class OrganizationService {
           firstName: parts[0],
           lastName: parts[1],
           userName: parts[2],
-          role: parts[4]
+          role: Role.valueOf(parts[4])
         )
 
         def teamName = parts[3]
