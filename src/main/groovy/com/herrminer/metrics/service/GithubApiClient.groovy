@@ -2,6 +2,7 @@ package com.herrminer.metrics.service
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.annotation.JsonAppend.Prop
 import com.google.common.base.Charsets
 import com.google.common.hash.HashFunction
 import com.google.common.hash.Hashing
@@ -24,9 +25,27 @@ class GithubApiClient {
   DefaultHttpClient httpClient = new DefaultHttpClient()
   ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
-  GithubApiClient(String credentials) {
-    this.encodedCredentials = credentials.bytes.encodeBase64().toString()
+  GithubApiClient(Properties properties) {
+    encodeCredentials(properties)
     ensureCacheDirectoryExists()
+  }
+
+  def encodeCredentials(Properties props) {
+    def username = props.getProperty('github.username')
+
+    if (!username) {
+      logger.error "github.username is not defined in metrics.properties"
+      System.exit(1)
+    }
+
+    def accessToken = props.getProperty('github.access.token')
+
+    if (!accessToken) {
+      logger.error "github.access.token is not defined in metrics.properties"
+      System.exit(1)
+    }
+
+    this.encodedCredentials = "${username}:${accessToken}".bytes.encodeBase64().toString()
   }
 
   def <T> T getApiResponse(String pathAndQueryString, Class<T> responseClass) {

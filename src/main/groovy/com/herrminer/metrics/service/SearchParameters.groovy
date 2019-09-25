@@ -30,14 +30,21 @@ class SearchParameters {
 
   SearchParameters(Properties properties) {
     fromDate = properties.getProperty('fromDate')
+    if (!fromDate) {
+      throw new RuntimeException("no 'fromDate' property in metrics.properties")
+    }
+
     toDate = properties.getProperty('toDate')
+    if (!toDate) {
+      throw new RuntimeException("no 'toDate' property in metrics.properties")
+    }
 
     def chunkSize = properties.getProperty('chunkSize')
     if (chunkSize) {
       this.chunkSize = Integer.parseInt(chunkSize)
     }
 
-    org = properties.getProperty("org")
+    org = properties.getProperty("github.org")
     if (!org) {
       throw new RuntimeException("no 'org' property in metrics.properties")
     }

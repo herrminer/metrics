@@ -18,14 +18,7 @@ class GithubApp {
     Properties props = new Properties()
     props.load(this.getResourceAsStream('/metrics.properties') as InputStream)
 
-    def credentials = props.getProperty('credentials')
-
-    if (!credentials) {
-      println "sorry, no 'credentials' entry in metrics.properties"
-      System.exit(1)
-    }
-
-    GithubApiClient githubApiClient = new GithubApiClient(credentials)
+    GithubApiClient githubApiClient = new GithubApiClient(props)
     PullRequestSearchService searchService = new PullRequestSearchService(githubApiClient)
 
     SearchParameters searchParameters = new SearchParameters(props)

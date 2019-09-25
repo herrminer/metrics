@@ -7,7 +7,11 @@ class GithubApiClientSpec extends Specification {
 
   def "put and get a cached response"() {
     given:
-    GithubApiClient service = new GithubApiClient('joseph:miner')
+    Properties properties = new Properties()
+    properties.setProperty('github.username', 'joseph.miner')
+    properties.setProperty('github.access.token', '12345')
+
+    GithubApiClient service = new GithubApiClient(properties)
 
     def response = "{hello:world}"
 
