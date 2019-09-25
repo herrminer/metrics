@@ -1,8 +1,12 @@
 package com.herrminer.metrics.service
 
 import groovy.time.TimeCategory
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 class SearchParameters {
+
+  private static final Logger logger = LoggerFactory.getLogger(SearchParameters)
 
   public static final String DATE_FORMAT = 'yyyy-MM-dd'
 
@@ -46,7 +50,9 @@ class SearchParameters {
 
     org = properties.getProperty("github.org")
     if (!org) {
-      throw new RuntimeException("no 'org' property in metrics.properties")
+      def error = "no 'github.org' property in metrics.properties"
+      logger.error error
+      throw new RuntimeException(error)
     }
   }
 
