@@ -8,5 +8,5 @@ class ReportingContext {
   SearchParameters searchParameters
   Organization organization
   PullRequestRepository pullRequestRepository
-  String exportDirectory
+  String outputDirectory
 }

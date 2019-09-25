@@ -12,7 +12,7 @@ abstract class MetricReport {
 
   protected File createReportFile(String baseReportName, boolean deleteIfExists = true) {
     def fileName = "${baseReportName}-${strippedDateRange()}.csv"
-    def reportFile = new File("${reportingContext.exportDirectory}/${fileName}")
+    def reportFile = new File("${reportingContext.outputDirectory}/${fileName}")
     if (reportFile.exists()) {
       reportFile.delete()
     }

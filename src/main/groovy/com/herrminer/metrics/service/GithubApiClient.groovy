@@ -16,18 +16,20 @@ class GithubApiClient {
 
   private static final Logger logger = LoggerFactory.getLogger(GithubApiClient)
 
-  private static final String CACHE_DIRECTORY = "${System.getenv('HOME')}/metric-cache"
+  private static final String CACHE_DIRECTORY_DEFAULT = "${System.getenv('HOME')}/metrics/cache"
 
   HashFunction hashFunction = Hashing.md5()
   String apiBaseUrl = 'https://api.github.com'
   String encodedCredentials
+
+  String cacheDirectory
 
   DefaultHttpClient httpClient = new DefaultHttpClient()
   ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
   GithubApiClient(Properties properties) {
     encodeCredentials(properties)
-    ensureCacheDirectoryExists()
+    initializeCacheDirectory(properties)
   }
 
   def encodeCredentials(Properties props) {
@@ -89,12 +91,16 @@ class GithubApiClient {
     responseText
   }
 
-  boolean ensureCacheDirectoryExists() {
-    def cacheDirectory = new File(CACHE_DIRECTORY)
-    if (!cacheDirectory.exists()) {
-      cacheDirectory.mkdir()
+  boolean initializeCacheDirectory(Properties properties) {
+    cacheDirectory = properties.getProperty('cache.directory') ?: CACHE_DIRECTORY_DEFAULT
+
+    def directory = new File(cacheDirectory)
+
+    if (!directory.exists()) {
+      directory.mkdirs()
     }
-    cacheDirectory.exists()
+
+    directory.exists()
   }
 
   String getCachedResponseText(String url) {
@@ -110,7 +116,7 @@ class GithubApiClient {
   }
 
   String getCacheFilename(String url) {
-    "${CACHE_DIRECTORY}/${hashFunction.hashString(url, Charsets.UTF_8).toString()}"
+    "${cacheDirectory}/${hashFunction.hashString(url, Charsets.UTF_8).toString()}"
   }
 
 }

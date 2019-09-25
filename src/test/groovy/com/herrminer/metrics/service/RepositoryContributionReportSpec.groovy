@@ -33,7 +33,7 @@ class RepositoryContributionReportSpec extends Specification {
 
     ReportingContext reportingContext = new ReportingContext(
         pullRequestRepository: repository,
-        exportDirectory: '/tmp',
+        outputDirectory: '/tmp',
         searchParameters: new SearchParameters(fromDate: '2019-01-01', toDate: '2019-01-31')
     )
     report = new RepositoryContributionReport(reportingContext)

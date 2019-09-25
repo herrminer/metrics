@@ -58,13 +58,11 @@ class GithubApp {
       }
     }
 
-    def exportDirectory = "${System.getenv('HOME')}/Downloads"
-
     ReportingContext reportingContext = new ReportingContext(
       searchParameters: searchParameters,
       organization: organization,
       pullRequestRepository: pullRequestRepository,
-      exportDirectory: exportDirectory
+      outputDirectory: getOutputDirectoryLocation(props)
     )
 
     ReportService.getReports(reportingContext).each {
@@ -73,5 +71,12 @@ class GithubApp {
     }
 
     MemoryUtility.printMemoryStatistics('end')
+  }
+
+  static String getOutputDirectoryLocation(Properties props) {
+    def outputDirectory = props.getProperty('output.directory') ?: "${System.getenv('HOME')}/metrics/reports"
+    File directory = new File(outputDirectory)
+    if (!directory.exists()) directory.mkdirs()
+    outputDirectory
   }
 }

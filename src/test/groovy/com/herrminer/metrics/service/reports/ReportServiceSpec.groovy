@@ -7,7 +7,7 @@ class ReportServiceSpec extends Specification {
   def "GetReports"() {
     given:
     ReportingContext reportingContext = new ReportingContext(
-        exportDirectory: '/tmp'
+        outputDirectory: '/tmp'
     )
 
     when:

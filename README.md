@@ -24,3 +24,5 @@ Additional options in `src/main/resources/metrics.properties` are as follows:
 * `fromDate` The beginning date for metrics. Must be formatted `yyyy-MM-dd`
 * `toDate` The end date for metrics. Must be formatted `yyyy-MM-dd`
 * `chunkSize` Chunk size (in days) used to work around [the Github Search API](https://developer.github.com/v3/search/) limitation of 1,000 search results.
+* `cache.directory` Location to store cached Github API responses. Defaults to `${System.getenv('HOME')}/metrics/cache`
+* `output.directory` Location to store reports. Defaults to `${System.getenv('HOME')}/metrics/reports`
