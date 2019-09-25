@@ -39,6 +39,6 @@ class MetricReportSpec extends Specification {
 
     then:
     reportFile
-    reportFile.name == 'report-20190101-20190131.csv'
+    reportFile.name == '20190101-20190131-report.csv'
   }
 }
