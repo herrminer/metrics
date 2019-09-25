@@ -1,6 +1,7 @@
 package com.herrminer.metrics
 
 import com.herrminer.metrics.model.Organization
+import com.herrminer.metrics.model.github.PullRequest
 import com.herrminer.metrics.service.*
 import com.herrminer.metrics.service.reports.ReportService
 import com.herrminer.metrics.service.reports.ReportingContext
@@ -10,6 +11,8 @@ import org.slf4j.LoggerFactory
 class GithubApp {
 
   private static Logger logger = LoggerFactory.getLogger(GithubApp)
+
+  private static Map<String, List<PullRequest>> ignoredPullRequests = [:]
 
   static void main(String[] args) {
 
@@ -46,7 +49,7 @@ class GithubApp {
             user.numberOfPullRequests++
             pullRequestRepository.addPullRequest(user, pullRequest)
           } else {
-            logger.debug "UNKNOWN USER: ${pullRequest.user.login}"
+            addToIgnoredPullRequests(pullRequest)
           }
         }
 
@@ -57,6 +60,8 @@ class GithubApp {
         }
       }
     }
+
+    logIgnoredPullRequests()
 
     ReportingContext reportingContext = new ReportingContext(
       searchParameters: searchParameters,
@@ -71,6 +76,19 @@ class GithubApp {
     }
 
     MemoryUtility.printMemoryStatistics('end')
+  }
+
+  static def addToIgnoredPullRequests(PullRequest pullRequest) {
+    if (!ignoredPullRequests.containsKey(pullRequest.user.login)) {
+      ignoredPullRequests.put(pullRequest.user.login, [])
+    }
+    ignoredPullRequests.get(pullRequest.user.login).add(pullRequest)
+  }
+
+  static def logIgnoredPullRequests() {
+    ignoredPullRequests.each { username, pullRequests ->
+      logger.info "ignored ${pullRequests.size()} pull requests from ${username}"
+    }
   }
 
   static String getOutputDirectoryLocation(Properties props) {
