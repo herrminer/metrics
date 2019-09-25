@@ -19,8 +19,8 @@ GMG was developed and tested with the following:
 gradle metrics
 ```
 
-## Other configuration options
-Other options in `src/main/resources/metrics.properties` are as follows:
+## Additional configuration options
+Additional options in `src/main/resources/metrics.properties` are as follows:
 * `fromDate` The beginning date for metrics. Must be formatted `yyyy-MM-dd`
 * `toDate` The end date for metrics. Must be formatted `yyyy-MM-dd`
 * `chunkSize` Chunk size (in days) used to work around [the Github Search API](https://developer.github.com/v3/search/) limitation of 1,000 search results.
