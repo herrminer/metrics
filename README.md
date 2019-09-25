@@ -13,7 +13,7 @@ GMG was developed and tested with the following:
 	* `github.username` Your user name on Github
 	* `github.access.token` A [Personal Access Token](https://help.github.com/en/enterprise/2.17/user/articles/creating-a-personal-access-token-for-the-command-line) for your Github account with `repo` scope
 	* `github.org` The Github organization that owns the repositories you want to query
-3. Execute the following on the command line:
+3. From the project root directory, execute the following on the command line:
 ```
 gradle metrics
 ```
