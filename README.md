@@ -11,7 +11,7 @@ GMG was developed and tested with the following:
 1. Download the [source code](https://github.com/herrminer/metrics) from Github
 2. Modify the following entries in `src/main/resources/metrics.properties`:
 	* `github.username` Your user name on Github
-	* `github.access.token` A [personal Access Token](https://help.github.com/en/enterprise/2.17/user/articles/creating-a-personal-access-token-for-the-command-line) for your account with `repo` scope
+	* `github.access.token` A [personal Access Token](https://help.github.com/en/enterprise/2.17/user/articles/creating-a-personal-access-token-for-the-command-line) for your Github account with `repo` scope
 	* `github.org` The Github organization that owns the repositories you want to query
 3. Execute the following on the command line:
 ```
