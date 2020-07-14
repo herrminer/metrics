@@ -29,6 +29,8 @@ class SearchParameters {
   // used to work around the 1000-item search limit on Github
   int chunkSize = 30 // days
 
+  List<String> excludeRepositories
+
   SearchParameters() {
   }
 
@@ -54,6 +56,8 @@ class SearchParameters {
       logger.error error
       throw new RuntimeException(error)
     }
+
+    excludeRepositories = properties.getProperty("excludeRepositories")?.tokenize(",")
   }
 
   void initialize() {

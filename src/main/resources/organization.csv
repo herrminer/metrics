@@ -1,4 +1,38 @@
-First,Last,Github,Team,Role
-John,Schmidt,john-schmidt,Team A,Manager
-Molly,Johnson,molly-johnson,Team A,Engineer
-Fred,Smith,fred-smith,Team A,Quality
+Drew,Daudel,drew-taulia,Release,Quality
+Mathieu,Lavoie,mathieulavoie-taulia,Club Suede,Manager
+Juned,Shaik,jshaik-gitit,Club Suede,Engineer
+Lucas,Earl,lucas-taulia,Club Suede,Engineer
+Eric,Kramer,ekramer-taulia,The Power Squad,Manager
+Robin,Dykema,robin-taulia,The Power Squad,Engineer
+Nirav,Patel,niravpatel-taulia,Lonestar,Manager
+Srilatha,Vangala,sree-taulia,Lonestar,Engineer
+Alyssa,Wadley,alyssawadley-taulia,Lonestar,Engineer
+Venkat,Gujjula,venkatgujjula-taulia,Lonestar,Engineer
+Leni,Kirilov,lenikirilov-taulia,Trakia,Manager
+Ivan,Kotev,ivankotev-taulia,Trakia,Engineer
+Angel,Antonov,angelantonov-taulia,Trakia,Engineer
+Krasimir,Kuzmanov,krasimirkuzmanov-taulia,Trakia,Quality
+Zornitsa,Petrova,zornitsapetrova-taulia,Trakia,Quality
+Ashutosh,Gupta,Ashu-Taulia,Honey Badgers,Engineer
+Srinivasulu,Venkat,srinireppalevenkat-taulia,Honey Badgers,Engineer
+Kim,Jihwan,jihwankim-taulia,Honey Badgers,Engineer
+Christoph,Emmersberger,christophemmersberger-taulia,Team Alpha,Engineer
+Vineet,Bhatkoti,vineet-taulia,Team Alpha,Engineer
+Matt,Wendling,mattwendling-taulia,Team Alpha,Engineer
+Matt,Zilenga,mattz-taulia,Team Alpha,Engineer
+Lisa,Mousum,lisamousum-taulia,Team Alpha,Quality
+Yana,Parvanova,yanaparvanova-taulia,Maritsa,Manager
+Dimitar,Mavrodiev,dimitarmavrodiev-taulia,Maritsa,Engineer
+Maya,Mitova,mmitova-taulia,Maritsa,Engineer
+Anna,Ivanova,Anna-taulia,Maritsa,Quality
+Genadi,Mitev,genadimitev-taulia,Pliska,Manager
+Kaloyan,Milkov,kaloyanmilkov-taulia,Pliska,Engineer
+Diyan,Filipov,diyanfilipov-taulia,Pliska,Engineer
+Martin,Atanasov,martinatanasov-taulia,Balkan,Manager
+Nikolay,Totomanov,ntotomanov-taulia,Balkan,Engineer
+Nikolay,Dichev,nikolaydichev-taulia,Balkan,Engineer
+Dyanko,Petkov,dyankopetkov-taulia,Balkan,Quality
+Sean,Stephenson,seanstephenson-taulia,Architecture,Engineer
+Nico,Capdevila,nicolascapdevila-taulia,Architecture,Engineer
+Sean,Dalby,trailrunner-taulia,Architecture,Engineer
+Kaloyan,Dimitrov,kaloyandimitrov-taulia,Architecture,Engineer

@@ -16,9 +16,18 @@ class PullRequestSearchService {
   }
 
   PullRequestSearchResponse searchPullRequests(SearchParameters searchParameters) {
+
     String pathAndQueryString = "/search/issues?${searchParameters.buildParameters()}"
+
     def response = githubApiClient.getApiResponse(pathAndQueryString, PullRequestSearchResponse)
+
     response.items.each { pullRequest ->
+
+      if (searchParameters.excludeRepositories?.contains(pullRequest.repositoryName)) {
+        logger.info "Ignoring pull request from [${pullRequest.repositoryName}] for user [${pullRequest.user.login}]"
+        return
+      }
+
       pullRequest.files = githubApiClient.getApiResponse(
         "/repos/${searchParameters.org}/${pullRequest.repositoryName}/pulls/${pullRequest.number}/files", PullRequestFile[])
     }
