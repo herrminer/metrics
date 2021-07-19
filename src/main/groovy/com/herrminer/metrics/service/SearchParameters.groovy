@@ -17,6 +17,9 @@ class SearchParameters {
   String fromDate
   String toDate
 
+  String fileFromDate
+  String fileToDate
+
   private Date originalFromDate
   private Date originalToDate
 
@@ -42,6 +45,9 @@ class SearchParameters {
     if (!toDate) {
       throw new RuntimeException("no 'toDate' property in metrics.properties")
     }
+
+    fileFromDate = fromDate
+    fileToDate = toDate
 
     def chunkSize = properties.getProperty('chunkSize')
     if (chunkSize) {

@@ -17,7 +17,9 @@ class PullRequestSearchService {
 
   PullRequestSearchResponse searchPullRequests(SearchParameters searchParameters) {
     String pathAndQueryString = "/search/issues?${searchParameters.buildParameters()}"
+    logger.info "querying pull requests: ${pathAndQueryString}"
     def response = githubApiClient.getApiResponse(pathAndQueryString, PullRequestSearchResponse)
+    logger.info "got ${response.items.size()} pull requests back"
     response.items.each { pullRequest ->
       pullRequest.files = githubApiClient.getApiResponse(
         "/repos/${searchParameters.org}/${pullRequest.repositoryName}/pulls/${pullRequest.number}/files", PullRequestFile[])

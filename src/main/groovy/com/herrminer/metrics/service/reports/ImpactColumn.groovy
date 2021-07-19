@@ -4,6 +4,11 @@ import com.herrminer.metrics.model.User
 
 import java.math.RoundingMode
 
+/**
+ * Number of pull requests compared to the average
+ * for all full-time engineers (non-manager, non-QA)
+ * in the organization
+ */
 class ImpactColumn implements ReportColumn {
 
   @Override

@@ -4,6 +4,10 @@ import com.herrminer.metrics.model.User
 
 import java.math.RoundingMode
 
+/**
+ * Number of user's pull requests compared to the average
+ * for all engineers (including managers) on their team
+ */
 class FairShareColumn implements ReportColumn {
 
   @Override

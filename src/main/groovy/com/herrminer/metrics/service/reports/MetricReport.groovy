@@ -20,7 +20,7 @@ abstract class MetricReport {
   }
 
   String strippedDateRange() {
-    "${noDash('fromDate')}-${noDash('toDate')}"
+    "${noDash('fileFromDate')}-${noDash('fileToDate')}"
   }
 
   String noDash(String fieldName) {
