@@ -11,50 +11,19 @@ class OrganizationService {
 
   private static final Logger logger = LoggerFactory.getLogger(OrganizationService)
 
-  private static Organization organization
+  Organization organization
 
-  static Organization getOrganization() {
-    if (!organization) {
-      organization = loadOrganization()
-    }
-    organization
+  TeamService teamService
+
+  OrganizationService(TeamService teamService) {
+    this.teamService = teamService
+    loadOrganization()
   }
 
-  static Organization loadOrganization() {
-    Organization organization = new Organization()
-    Map<String, Team> teams = new HashMap<>()
+  Organization loadOrganization() {
+    organization = new Organization()
 
-    List<User> users = new ArrayList<>()
-    new File(getClass().getResource("/organization.csv").toURI()).eachLine { line, num ->
-
-      if (num > 1 && line.length()) {
-        String[] parts = line.split(',')
-
-        if (parts.length != 5) {
-          logger.error "line has incorrect number of fields: ${line}\n"
-          return
-        }
-
-        def user = new User(
-          firstName: parts[0].trim(),
-          lastName: parts[1].trim(),
-          userName: parts[2].trim(),
-          role: getRole(parts[4].trim())
-        )
-
-        def teamName = parts[3]
-
-        if (!teams.containsKey(teamName)) {
-          teams.put(teamName, new Team(name: teamName))
-        }
-
-        teams.get(teamName).addUser(user)
-
-        users.add(user)
-      }
-    }
-
-    teams.values().each {
+    teamService.getTeams().each {
       organization.addTeam(it)
     }
 

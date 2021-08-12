@@ -3,8 +3,7 @@ package com.herrminer.metrics.model
 import com.herrminer.metrics.model.github.PullRequest
 
 class User {
-  String firstName
-  String lastName
+  String name
   String userName
   Team team
   Role role
@@ -38,8 +37,7 @@ class User {
   @Override
   String toString() {
     return "User{" +
-      "firstName='" + firstName + '\'' +
-      ", lastName='" + lastName + '\'' +
+      "name='" + name + '\'' +
       ", userName='" + userName + '\'' +
       '}';
   }

@@ -1,6 +1,7 @@
 package com.herrminer.metrics
 
 import com.herrminer.metrics.model.Organization
+import com.herrminer.metrics.model.github.GithubUser
 import com.herrminer.metrics.model.github.PullRequest
 import com.herrminer.metrics.service.*
 import com.herrminer.metrics.service.reports.ReportService
@@ -23,10 +24,12 @@ class GithubApp {
 
     GithubApiClient githubApiClient = new GithubApiClient(props)
     PullRequestSearchService searchService = new PullRequestSearchService(githubApiClient)
+    TeamService teamService = new TeamService(githubApiClient)
 
     SearchParameters searchParameters = new SearchParameters(props)
 
-    Organization organization = OrganizationService.organization
+    OrganizationService organizationService = new OrganizationService(teamService)
+    Organization organization = organizationService.getOrganization()
     PullRequestRepository pullRequestRepository = new PullRequestRepository()
 
     while (searchParameters.advanceChunkDates()) {

@@ -11,7 +11,7 @@ class NameColumn implements ReportColumn {
 
   @Override
   String getColumnValue(User user) {
-    "${user.firstName} ${user.lastName}"
+    "${user.name}"
   }
 
 }
