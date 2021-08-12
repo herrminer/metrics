@@ -5,6 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty
 class PullRequest {
   String id
   String url
+
+  @JsonProperty('html_url')
+  String htmlUrl
+
   String title
   int number
   GithubUser user
