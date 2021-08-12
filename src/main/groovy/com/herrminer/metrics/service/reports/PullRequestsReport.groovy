@@ -11,7 +11,7 @@ class PullRequestsReport extends MetricReport {
 
   public static final Logger logger = LoggerFactory.getLogger(PullRequestsReport)
 
-  static SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+  static SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
 
   PullRequestsReport(ReportingContext reportingContext) {
     super(reportingContext)
@@ -20,7 +20,7 @@ class PullRequestsReport extends MetricReport {
   @Override
   File buildCsvFile() {
     def outputFile = createReportFile('pull-requests-data')
-    outputFile << 'user login,user name,repository,created,closed,changes,url\n'
+    outputFile << 'id,title,user login,user name,repository,created,closed,changes,url\n'
     reportingContext.organization.teams*.users.flatten().each { user ->
       outputFile << buildPullRequestLines(user)
     }
@@ -30,6 +30,8 @@ class PullRequestsReport extends MetricReport {
   static String buildPullRequestLines(User user) {
     def returnValue = new StringBuilder()
     user.pullRequests.each { pr ->
+      returnValue.append("${pr.id},")
+      returnValue.append("${pr.title.replace(',','')},")
       returnValue.append("${user.userName},")
       returnValue.append("${user.name},")
       returnValue.append("${pr.repositoryName},")
