@@ -50,8 +50,12 @@ class GithubApiClient {
     this.encodedCredentials = "${username}:${accessToken}".bytes.encodeBase64().toString()
   }
 
-  def <T> T getApiResponse(String pathAndQueryString, Class<T> responseClass) {
+  def <T> T getApiResponse(String pathAndQueryString, Class<T> responseClass, boolean forceRefresh = false) {
     def url = apiBaseUrl + pathAndQueryString
+
+    if (forceRefresh) {
+      deleteCachedResponse(url)
+    }
 
     String responseText = getCachedResponseText(url)
 
@@ -103,6 +107,10 @@ class GithubApiClient {
     directory.exists()
   }
 
+  boolean deleteCachedResponse(String url) {
+    new File(getCacheFilename(url)).delete()
+  }
+
   String getCachedResponseText(String url) {
     File cachedResponse = new File(getCacheFilename(url))
     cachedResponse.exists() ? cachedResponse.text : null
@@ -117,6 +125,12 @@ class GithubApiClient {
 
   String getCacheFilename(String url) {
     "${cacheDirectory}/${hashFunction.hashString(url, Charsets.UTF_8).toString()}"
+  }
+
+  public static void main(String[] args) {
+    File f = new File("test.txt")
+    if (f.exists()) f.delete()
+    f << 'hi there'
   }
 
 }
