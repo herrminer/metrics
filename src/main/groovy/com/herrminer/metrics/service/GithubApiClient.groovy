@@ -76,10 +76,21 @@ class GithubApiClient {
 
     get.addHeader('Authorization', "Basic ${encodedCredentials}")
 
-    def response = httpClient.execute(get)
-    HttpEntity entity = response.getEntity()
-
     logger.info "API request: ${url}"
+
+    def response = httpClient.execute(get)
+
+    def statusCode = response.statusLine.statusCode
+    if (statusCode > 299) {
+      def errorResponse = response.getEntity().getContent().text
+      logger.error "API ERROR: ${errorResponse}"
+      response.getHeaders().each { header ->
+        logger.debug "${header.name}: ${header.value}"
+      }
+      throw new RuntimeException(errorResponse)
+    }
+
+    HttpEntity entity = response.getEntity()
 
     if (logger.isDebugEnabled()) {
       logger.debug "RESPONSE HEADERS"
