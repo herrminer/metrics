@@ -20,7 +20,7 @@ class PullRequestsReport extends MetricReport {
   @Override
   File buildCsvFile() {
     def outputFile = createReportFile('pull-requests-data')
-    outputFile << 'id,title,user login,user name,repository,time dimension,created,closed,changes,url\n'
+    outputFile << 'id,title,user login,user name,repository,time dimension,created,closed,files,changes,url\n'
     reportingContext.organization.teams*.users.flatten().each { user ->
       outputFile << buildPullRequestLines(user)
     }
@@ -38,6 +38,7 @@ class PullRequestsReport extends MetricReport {
       returnValue.append("${dateFormatter.format(pr.dateClosed)},")
       returnValue.append("${dateFormatter.format(pr.dateCreated)},")
       returnValue.append("${dateFormatter.format(pr.dateClosed)},")
+      returnValue.append("${pr.files.size() ?: 0},")
       returnValue.append("${pr.files.flatten()*.changes.sum() ?: 0},")
       returnValue.append("${pr.htmlUrl},")
       returnValue.append("\n")
