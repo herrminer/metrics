@@ -3,6 +3,7 @@ package com.herrminer.metrics.service
 import com.herrminer.metrics.model.Role
 import com.herrminer.metrics.model.Team
 import com.herrminer.metrics.model.User
+import com.herrminer.metrics.model.github.GithubTeam
 import com.herrminer.metrics.model.github.GithubUser
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -15,6 +16,7 @@ class TeamService {
 
     GithubApiClient githubApiClient
     UserService userService
+    Map<String, User> users = [:]
 
     TeamService(GithubApiClient githubApiClient) {
         this.githubApiClient = githubApiClient
@@ -22,13 +24,23 @@ class TeamService {
     }
 
     List<Team> getTeams() {
+        List<String> localTeamNames = []
+        localTeamNames.addAll(teamNames)
+        teamNames.each { parentTeamSlug ->
+            localTeamNames.addAll(getChildTeams(parentTeamSlug).collect { it.slug })
+        }
+
         List<Team> teams = []
-        teamNames.each {
+        localTeamNames.each {
             Team team = new Team(name: it)
             loadTeamMembers(team)
             teams.add(team)
         }
         teams
+    }
+
+    List<GithubTeam> getChildTeams(String parentTeamSlug) {
+        githubApiClient.getApiResponse("/orgs/SyscoCorporation/teams/${parentTeamSlug}/teams", GithubTeam[])
     }
 
     private List<User> loadTeamMembers(Team team) {
@@ -42,13 +54,19 @@ class TeamService {
                     GithubUser[])
 
             result.each {
-                GithubUser githubUser = userService.getUser(it.login)
-                if (githubUser) {
-                    team.addUser(new User(
-                            userName: githubUser.login,
-                            name: githubUser.name,
-                            role: Role.Engineer)
-                    )
+                if (users.get(it.login)) {
+                    // move to new team (presumably a child team)
+                    team.addUser(users.get(it.login))
+                } else {
+                    GithubUser githubUser = userService.getUser(it.login)
+                    if (githubUser) {
+                        def user = new User(
+                                userName: githubUser.login,
+                                name: githubUser.name,
+                                role: Role.Engineer)
+                        users.put(user.userName, user)
+                        team.addUser(user)
+                    }
                 }
             }
 
