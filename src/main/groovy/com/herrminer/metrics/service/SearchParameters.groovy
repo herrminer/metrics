@@ -102,7 +102,7 @@ class SearchParameters {
   }
 
   String buildParameters() {
-    "per_page=${pageSize}&page=${page}&q=org:${org}+is:pr+is:merged+created:${fromDate}..${toDate}"
+    "per_page=${pageSize}&page=${page}&q=org:${org}+is:pr+is:merged+closed:${fromDate}..${toDate}"
   }
 
   void incrementPage() {
