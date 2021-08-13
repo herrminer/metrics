@@ -14,6 +14,6 @@ class UserService {
     }
 
     def getUser(String login) {
-        githubApiClient.getApiResponse("/users/${login}", GithubUser, true)
+        githubApiClient.getApiResponse("/users/${login}", GithubUser)
     }
 }
