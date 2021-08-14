@@ -40,7 +40,7 @@ class PullRequestsReport extends MetricReport {
       returnValue.append("${dateFormatter.format(pr.dateCreated)},")
       returnValue.append("${dateFormatter.format(pr.dateClosed)},")
       returnValue.append("${pr.files.size() ?: 0},")
-      returnValue.append("${pr.files.flatten()*.changes.sum() ?: 0},") // todo: this is inaccurate
+      returnValue.append("${pr.files.flatten()*.changes.sum() ?: 0},")
       returnValue.append("${pr.htmlUrl},")
       returnValue.append("\n")
     }
