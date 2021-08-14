@@ -16,7 +16,7 @@ class UsersReport extends MetricReport {
     def outputFile = createReportFile('users')
     outputFile << 'team,login,name\n'
     reportingContext.organization.users.each { id, user ->
-      outputFile << "${user.team.name},${user.userName},${user.name ?: user.userName}\n"
+      outputFile << "${user.githubTeam.name},${user.login},${user.name ?: user.login}\n"
     }
     outputFile
   }

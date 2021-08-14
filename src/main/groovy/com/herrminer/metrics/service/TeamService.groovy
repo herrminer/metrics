@@ -1,8 +1,5 @@
 package com.herrminer.metrics.service
 
-import com.herrminer.metrics.model.Role
-import com.herrminer.metrics.model.Team
-import com.herrminer.metrics.model.User
 import com.herrminer.metrics.model.github.GithubTeam
 import com.herrminer.metrics.model.github.GithubUser
 import org.slf4j.Logger
@@ -16,34 +13,43 @@ class TeamService {
 
     GithubApiClient githubApiClient
     UserService userService
-    Map<String, User> users = [:]
+    Map<String, GithubUser> githubUsers = [:]
 
     TeamService(GithubApiClient githubApiClient) {
         this.githubApiClient = githubApiClient
         this.userService = new UserService(githubApiClient)
     }
 
-    List<Team> getTeams() {
-        List<String> localTeamNames = []
-        localTeamNames.addAll(teamNames)
-        teamNames.each { parentTeamSlug ->
-            localTeamNames.addAll(getChildTeams(parentTeamSlug).collect { it.slug })
+    List<GithubTeam> getTeams() {
+        List<GithubTeam> teams = []
+
+        // add parent teams first
+        teamNames.each { teamSlug ->
+            teams.add(getTeam(teamSlug))
         }
 
-        List<Team> teams = []
-        localTeamNames.each {
-            Team team = new Team(name: it)
-            loadTeamMembers(team)
-            teams.add(team)
+        // then add child teams
+        teamNames.each { teamSlug ->
+            teams.addAll(getChildTeams(teamSlug))
         }
+
+        // now load the team members
+        teams.each { team ->
+            loadTeamMembers(team)
+        }
+
         teams
     }
 
-    List<GithubTeam> getChildTeams(String parentTeamSlug) {
-        githubApiClient.getApiResponse("/orgs/SyscoCorporation/teams/${parentTeamSlug}/teams", GithubTeam[])
+    GithubTeam getTeam(String teamSlug) {
+        githubApiClient.getApiResponse("/orgs/SyscoCorporation/teams/${teamSlug}", GithubTeam)
     }
 
-    private List<User> loadTeamMembers(Team team) {
+    List<GithubTeam> getChildTeams(String teamSlug) {
+        githubApiClient.getApiResponse("/orgs/SyscoCorporation/teams/${teamSlug}/teams", GithubTeam[])
+    }
+
+    private List<GithubUser> loadTeamMembers(GithubTeam team) {
         def perPage = 100
         def resultSize = 100
         def page = 1
@@ -54,18 +60,14 @@ class TeamService {
                     GithubUser[])
 
             result.each {
-                if (users.get(it.login)) {
+                if (githubUsers.get(it.login)) {
                     // move to new team (presumably a child team)
-                    team.addUser(users.get(it.login))
+                    team.addUser(githubUsers.get(it.login))
                 } else {
                     GithubUser githubUser = userService.getUser(it.login)
                     if (githubUser) {
-                        def user = new User(
-                                userName: githubUser.login,
-                                name: githubUser.name,
-                                role: Role.Engineer)
-                        users.put(user.userName, user)
-                        team.addUser(user)
+                        githubUsers.put(githubUser.login, githubUser)
+                        team.addUser(githubUser)
                     }
                 }
             }

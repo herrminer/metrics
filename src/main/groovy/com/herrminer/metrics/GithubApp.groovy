@@ -30,7 +30,6 @@ class GithubApp {
 
     OrganizationService organizationService = new OrganizationService(teamService)
     Organization organization = organizationService.getOrganization()
-    PullRequestRepository pullRequestRepository = new PullRequestRepository()
 
     while (searchParameters.advanceChunkDates()) {
 
@@ -49,8 +48,6 @@ class GithubApp {
           if (user) {
             logger.debug "adding pull request for user ${pullRequest.user.login}, user ${user}"
             user.pullRequests.add(pullRequest)
-            user.numberOfPullRequests++
-            pullRequestRepository.addPullRequest(user, pullRequest)
           } else {
             addToIgnoredPullRequests(pullRequest)
           }
@@ -69,7 +66,6 @@ class GithubApp {
     ReportingContext reportingContext = new ReportingContext(
       searchParameters: searchParameters,
       organization: organization,
-      pullRequestRepository: pullRequestRepository,
       outputDirectory: getOutputDirectoryLocation(props)
     )
 

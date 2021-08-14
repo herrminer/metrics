@@ -1,7 +1,7 @@
 package com.herrminer.metrics.service.reports
 
 
-import com.herrminer.metrics.model.User
+import com.herrminer.metrics.model.github.GithubUser
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -27,7 +27,7 @@ class PullRequestsReport extends MetricReport {
     outputFile
   }
 
-  static String buildPullRequestLines(User user) {
+  static String buildPullRequestLines(GithubUser user) {
     def returnValue = new StringBuilder()
     user.pullRequests.each { pr ->
       returnValue.append("${pr.repositoryName},")
@@ -39,7 +39,7 @@ class PullRequestsReport extends MetricReport {
       returnValue.append("${pr.files.size() ?: 0},")
       returnValue.append("${pr.files.flatten()*.changes.sum() ?: 0},")
       returnValue.append("${pr.htmlUrl},")
-      returnValue.append("${user.userName},")
+      returnValue.append("${user.login},")
       returnValue.append("\n")
     }
     returnValue
