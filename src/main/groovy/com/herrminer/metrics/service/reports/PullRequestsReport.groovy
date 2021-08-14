@@ -20,7 +20,7 @@ class PullRequestsReport extends MetricReport {
   @Override
   File buildCsvFile() {
     def outputFile = createReportFile('pull-requests-data')
-    outputFile << 'id,title,team,user login,user name,repository,time dimension,created,closed,files,changes,url\n'
+    outputFile << 'repository,id,title,time dimension,created,closed,files,changes,url,author\n'
     reportingContext.organization.users.each { id, user ->
       outputFile << buildPullRequestLines(user)
     }
@@ -30,18 +30,16 @@ class PullRequestsReport extends MetricReport {
   static String buildPullRequestLines(User user) {
     def returnValue = new StringBuilder()
     user.pullRequests.each { pr ->
+      returnValue.append("${pr.repositoryName},")
       returnValue.append("${pr.id},")
       returnValue.append("${pr.title.replace(',','')},")
-      returnValue.append("${user.team.name},")
-      returnValue.append("${user.userName},")
-      returnValue.append("${user.name ?: user.userName},")
-      returnValue.append("${pr.repositoryName},")
       returnValue.append("${dateFormatter.format(pr.dateClosed)},")
       returnValue.append("${dateFormatter.format(pr.dateCreated)},")
       returnValue.append("${dateFormatter.format(pr.dateClosed)},")
       returnValue.append("${pr.files.size() ?: 0},")
       returnValue.append("${pr.files.flatten()*.changes.sum() ?: 0},")
       returnValue.append("${pr.htmlUrl},")
+      returnValue.append("${user.userName},")
       returnValue.append("\n")
     }
     returnValue

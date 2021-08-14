@@ -3,7 +3,8 @@ package com.herrminer.metrics.service.reports
 class ReportService {
 
   static Class<? extends MetricReport>[] reportClasses = [
-          PullRequestsReport
+    UsersReport,
+    PullRequestsReport,
   ]
 
   static Collection<MetricReport> getReports(ReportingContext reportingContext) {
