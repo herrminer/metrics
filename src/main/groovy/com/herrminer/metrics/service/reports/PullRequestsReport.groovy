@@ -19,7 +19,7 @@ class PullRequestsReport extends MetricReport {
 
   @Override
   File buildCsvFile() {
-    def outputFile = createReportFile('pull-requests-data')
+    def outputFile = createReportFile('pull-requests')
     outputFile << 'repository,id,title,time dimension,created,closed,files,changes,url,author\n'
     reportingContext.organization.users.each { id, user ->
       outputFile << buildPullRequestLines(user)
