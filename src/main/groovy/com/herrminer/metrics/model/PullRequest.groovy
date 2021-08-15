@@ -1,4 +1,4 @@
-package com.herrminer.metrics.model.github
+package com.herrminer.metrics.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
@@ -11,7 +11,7 @@ class PullRequest {
 
   String title
   int number
-  GithubUser user
+    GithubUser user
   PullRequestFile[] files
 
   @JsonProperty('created_at')

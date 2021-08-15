@@ -1,6 +1,7 @@
-package com.herrminer.metrics.model.github
+package com.herrminer.metrics.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.herrminer.metrics.model.PullRequest
 
 class PullRequestSearchResponse {
   /**

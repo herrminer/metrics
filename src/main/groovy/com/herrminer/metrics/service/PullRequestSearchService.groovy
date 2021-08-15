@@ -1,7 +1,7 @@
 package com.herrminer.metrics.service
 
-import com.herrminer.metrics.model.github.PullRequestFile
-import com.herrminer.metrics.model.github.PullRequestSearchResponse
+import com.herrminer.metrics.model.PullRequestFile
+import com.herrminer.metrics.model.PullRequestSearchResponse
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 

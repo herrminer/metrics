@@ -1,8 +1,7 @@
 package com.herrminer.metrics
 
 import com.herrminer.metrics.model.Organization
-import com.herrminer.metrics.model.github.GithubUser
-import com.herrminer.metrics.model.github.PullRequest
+import com.herrminer.metrics.model.PullRequest
 import com.herrminer.metrics.service.*
 import com.herrminer.metrics.service.reports.ReportService
 import com.herrminer.metrics.service.reports.ReportingContext

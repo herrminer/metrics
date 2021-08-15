@@ -1,7 +1,7 @@
 package com.herrminer.metrics.service
 
-import com.herrminer.metrics.model.github.GithubTeam
-import com.herrminer.metrics.model.github.GithubUser
+import com.herrminer.metrics.model.GithubTeam
+import com.herrminer.metrics.model.GithubUser
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 

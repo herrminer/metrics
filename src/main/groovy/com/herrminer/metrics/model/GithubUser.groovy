@@ -1,4 +1,4 @@
-package com.herrminer.metrics.model.github
+package com.herrminer.metrics.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty

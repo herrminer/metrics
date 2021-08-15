@@ -1,5 +1,6 @@
-package com.herrminer.metrics.model.github
+package com.herrminer.metrics.model
 
+import com.herrminer.metrics.model.PullRequest
 import spock.lang.Specification
 
 class PullRequestSpec extends Specification {

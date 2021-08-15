@@ -1,8 +1,5 @@
 package com.herrminer.metrics.model
 
-import com.herrminer.metrics.model.github.GithubTeam
-import com.herrminer.metrics.model.github.GithubUser
-
 class Organization {
   List<GithubTeam> teams = []
 

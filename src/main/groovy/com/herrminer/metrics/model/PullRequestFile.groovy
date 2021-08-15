@@ -1,4 +1,4 @@
-package com.herrminer.metrics.model.github
+package com.herrminer.metrics.model
 
 /**
  * resource URI: "/repos/:owner/:repo/pulls/:pull_number/files"
