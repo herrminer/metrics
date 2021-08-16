@@ -18,8 +18,7 @@ class GithubApp {
 
     MemoryUtility.printMemoryStatistics('start')
 
-    Properties props = new Properties()
-    props.load(this.getResourceAsStream('/metrics.properties') as InputStream)
+    Properties props = AppConfiguration.properties
 
     GithubApiClient githubApiClient = new GithubApiClient(props)
     PullRequestSearchService searchService = new PullRequestSearchService(githubApiClient)

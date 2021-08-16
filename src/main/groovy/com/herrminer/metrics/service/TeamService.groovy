@@ -1,5 +1,6 @@
 package com.herrminer.metrics.service
 
+import com.herrminer.metrics.AppConfiguration
 import com.herrminer.metrics.model.GithubTeam
 import com.herrminer.metrics.model.GithubUser
 import org.slf4j.Logger
@@ -9,7 +10,11 @@ class TeamService {
 
     private static Logger logger = LoggerFactory.getLogger(TeamService)
 
-    private static List<String> teamNames = ['syscolabs-customer-experience-engineering']
+    private static List<String> teamNames = [
+        'syscolabs-customer-experience-engineering',
+        'syscolabs-customer-experience-disco',
+        'syscolabs-customer-experience-mango',
+    ]
 
     GithubApiClient githubApiClient
     UserService userService
@@ -42,11 +47,15 @@ class TeamService {
     }
 
     GithubTeam getTeam(String teamSlug) {
-        githubApiClient.getApiResponse("/orgs/SyscoCorporation/teams/${teamSlug}", GithubTeam)
+        githubApiClient.getApiResponse("/orgs/SyscoCorporation/teams/${teamSlug}",
+                GithubTeam,
+                AppConfiguration.getConfigurationAsBoolean('github.org.refresh'))
     }
 
     List<GithubTeam> getChildTeams(String teamSlug) {
-        githubApiClient.getApiResponse("/orgs/SyscoCorporation/teams/${teamSlug}/teams", GithubTeam[])
+        githubApiClient.getApiResponse("/orgs/SyscoCorporation/teams/${teamSlug}/teams",
+                GithubTeam[],
+                AppConfiguration.getConfigurationAsBoolean('github.org.refresh'))
     }
 
     private List<GithubUser> loadTeamMembers(GithubTeam team) {
@@ -57,9 +66,10 @@ class TeamService {
         while (resultSize == perPage) {
             def result = githubApiClient.getApiResponse(
                     "/orgs/SyscoCorporation/teams/${team.name}/members?per_page=100&page=${page}",
-                    GithubUser[])
+                    GithubUser[],
+                    AppConfiguration.getConfigurationAsBoolean('github.org.refresh'))
 
-            result.each {
+            result.findAll { !(it.login in AppConfiguration.getExcludedUsers()) }.each {
                 if (githubUsers.get(it.login)) {
                     // move to new team (presumably a child team)
                     team.addUser(githubUsers.get(it.login))

@@ -1,5 +1,6 @@
 package com.herrminer.metrics.service
 
+import com.herrminer.metrics.AppConfiguration
 import com.herrminer.metrics.model.GithubUser
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -14,6 +15,7 @@ class UserService {
     }
 
     def getUser(String login) {
-        githubApiClient.getApiResponse("/users/${login}", GithubUser)
+        githubApiClient.getApiResponse("/users/${login}", GithubUser,
+                AppConfiguration.getConfigurationAsBoolean('github.org.refresh'))
     }
 }
