@@ -15,7 +15,7 @@ class UserService {
     }
 
     def getUser(String login) {
-        githubApiClient.getApiResponse("/users/${login}", GithubUser,
-                AppConfiguration.getConfigurationAsBoolean('github.org.refresh'))
+        githubApiClient.getApiResponse("/users/${login}", GithubUser, false)
+//                AppConfiguration.getConfigurationAsBoolean('github.org.refresh'))
     }
 }

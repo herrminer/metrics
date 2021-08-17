@@ -19,12 +19,4 @@ abstract class MetricReport {
     reportFile
   }
 
-  String strippedDateRange() {
-    "${noDash('fileFromDate')}-${noDash('fileToDate')}"
-  }
-
-  String noDash(String fieldName) {
-    reportingContext.searchParameters."$fieldName".replace('-','')
-  }
-
 }

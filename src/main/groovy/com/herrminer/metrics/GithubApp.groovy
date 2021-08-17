@@ -23,38 +23,40 @@ class GithubApp {
     GithubApiClient githubApiClient = new GithubApiClient(props)
     PullRequestSearchService searchService = new PullRequestSearchService(githubApiClient)
     TeamService teamService = new TeamService(githubApiClient)
-
-    SearchParameters searchParameters = new SearchParameters(props)
-
     OrganizationService organizationService = new OrganizationService(teamService)
-    Organization organization = organizationService.getOrganization()
+    Organization organization = organizationService.loadOrganization(['SyscoCorporation', 'sysco-labs-mobile'])
 
-    while (searchParameters.advanceChunkDates()) {
+    organization.githubOrganizations.each { githubOrganization ->
+      SearchParameters searchParameters = new SearchParameters(props)
+      searchParameters.org = githubOrganization
 
-      boolean moreResultsAvailable = true
+      while (searchParameters.advanceChunkDates()) {
 
-      while (moreResultsAvailable) {
-        def searchResponse = searchService.searchPullRequests(searchParameters)
+        boolean moreResultsAvailable = true
 
-        if (searchResponse.message) {
-          logger.error "ERROR MESSAGE: ${searchResponse.message}"
-          System.exit(1)
-        }
+        while (moreResultsAvailable) {
+          def searchResponse = searchService.searchPullRequests(searchParameters)
 
-        searchResponse.items.each { pullRequest ->
-          def user = organization.findUser(pullRequest.user.login)
-          if (user) {
-            logger.debug "adding pull request for user ${pullRequest.user.login}, user ${user}"
-            user.pullRequests.add(pullRequest)
-          } else {
-            addToIgnoredPullRequests(pullRequest)
+          if (searchResponse.message) {
+            logger.error "ERROR MESSAGE: ${searchResponse.message}"
+            System.exit(1)
           }
-        }
 
-        moreResultsAvailable = searchResponse.totalCount > (searchParameters.page * searchParameters.pageSize)
+          searchResponse.items.each { pullRequest ->
+            def user = organization.findUser(pullRequest.user.login)
+            if (user) {
+              logger.debug "adding pull request for user ${pullRequest.user.login}, user ${user}"
+              user.pullRequests.add(pullRequest)
+            } else {
+              addToIgnoredPullRequests(pullRequest)
+            }
+          }
 
-        if (moreResultsAvailable) {
-          searchParameters.incrementPage()
+          moreResultsAvailable = searchResponse.totalCount > (searchParameters.page * searchParameters.pageSize)
+
+          if (moreResultsAvailable) {
+            searchParameters.incrementPage()
+          }
         }
       }
     }
@@ -62,7 +64,6 @@ class GithubApp {
     logIgnoredPullRequests()
 
     ReportingContext reportingContext = new ReportingContext(
-      searchParameters: searchParameters,
       organization: organization,
       outputDirectory: getOutputDirectoryLocation(props)
     )

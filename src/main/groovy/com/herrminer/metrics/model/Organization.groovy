@@ -1,6 +1,9 @@
 package com.herrminer.metrics.model
 
 class Organization {
+
+  List<String> githubOrganizations
+
   List<GithubTeam> teams = []
 
   Map<String, GithubUser> users = [:]

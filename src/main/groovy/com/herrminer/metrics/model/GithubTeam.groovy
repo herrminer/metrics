@@ -1,6 +1,7 @@
 package com.herrminer.metrics.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonProperty
 
 class GithubTeam {
 
@@ -8,6 +9,9 @@ class GithubTeam {
     String name
     String slug
     String description
+
+    @JsonProperty('organization')
+    GithubOrganization githubOrganization
 
     @JsonIgnore
     Organization organization

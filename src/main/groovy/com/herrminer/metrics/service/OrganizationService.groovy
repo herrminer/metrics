@@ -9,19 +9,18 @@ class OrganizationService {
 
   private static final Logger logger = LoggerFactory.getLogger(OrganizationService)
 
-  Organization organization
-
   TeamService teamService
 
   OrganizationService(TeamService teamService) {
     this.teamService = teamService
-    loadOrganization()
   }
 
-  Organization loadOrganization() {
-    organization = new Organization()
+  Organization loadOrganization(List<String> githubOrganizations) {
+    Organization organization = new Organization(
+      githubOrganizations: githubOrganizations
+    )
 
-    teamService.getTeams().each {
+    teamService.getTeams(githubOrganizations).each {
       organization.addTeam(it)
     }
 

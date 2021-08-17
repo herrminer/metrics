@@ -1,6 +1,7 @@
 package com.herrminer.metrics.service
 
 import com.herrminer.metrics.AppConfiguration
+import com.herrminer.metrics.model.GithubOrganization
 import com.herrminer.metrics.model.GithubTeam
 import com.herrminer.metrics.model.GithubUser
 import org.slf4j.Logger
@@ -10,11 +11,11 @@ class TeamService {
 
     private static Logger logger = LoggerFactory.getLogger(TeamService)
 
-    private static List<String> teamNames = [
-        'syscolabs-customer-experience-engineering',
-        'syscolabs-customer-experience-disco',
-        'syscolabs-customer-experience-mango',
-    ]
+//    private static List<String> teamNames = [
+//        'SyscoCorporation/syscolabs-customer-experience-engineering',
+//        'syscolabs-customer-experience-disco',
+//        'syscolabs-customer-experience-mango',
+//    ]
 
     GithubApiClient githubApiClient
     UserService userService
@@ -25,17 +26,18 @@ class TeamService {
         this.userService = new UserService(githubApiClient)
     }
 
-    List<GithubTeam> getTeams() {
+    List<GithubTeam> getTeams(List<String> organizations) {
         List<GithubTeam> teams = []
 
-        // add parent teams first
-        teamNames.each { teamSlug ->
-            teams.add(getTeam(teamSlug))
-        }
+        organizations.each { orgName ->
+            // first add parent teams for the org
+            def parentTeams = getTeamsForOrg(orgName)
+            teams.addAll(parentTeams)
 
-        // then add child teams
-        teamNames.each { teamSlug ->
-            teams.addAll(getChildTeams(teamSlug))
+            // then add child teams
+            parentTeams.each { parentTeam ->
+                teams.addAll(getChildTeams(parentTeam))
+            }
         }
 
         // now load the team members
@@ -46,16 +48,20 @@ class TeamService {
         teams
     }
 
-    GithubTeam getTeam(String teamSlug) {
-        githubApiClient.getApiResponse("/orgs/SyscoCorporation/teams/${teamSlug}",
-                GithubTeam,
-                AppConfiguration.getConfigurationAsBoolean('github.org.refresh'))
+    private List<GithubTeam> getTeamsForOrg(String organization) {
+        githubApiClient.getApiResponse("/orgs/${organization}/teams",
+                GithubTeam[],
+                AppConfiguration.getConfigurationAsBoolean('github.org.refresh')).each {
+            it.githubOrganization = new GithubOrganization(login: organization)
+        }
     }
 
-    List<GithubTeam> getChildTeams(String teamSlug) {
-        githubApiClient.getApiResponse("/orgs/SyscoCorporation/teams/${teamSlug}/teams",
+    private List<GithubTeam> getChildTeams(GithubTeam githubTeam) {
+        githubApiClient.getApiResponse("/orgs/${githubTeam.githubOrganization.login}/teams/${githubTeam.slug}/teams",
                 GithubTeam[],
-                AppConfiguration.getConfigurationAsBoolean('github.org.refresh'))
+                AppConfiguration.getConfigurationAsBoolean('github.org.refresh')).each {
+            it.githubOrganization = githubTeam.githubOrganization
+        }
     }
 
     private List<GithubUser> loadTeamMembers(GithubTeam team) {
@@ -65,7 +71,7 @@ class TeamService {
 
         while (resultSize == perPage) {
             def result = githubApiClient.getApiResponse(
-                    "/orgs/SyscoCorporation/teams/${team.name}/members?per_page=100&page=${page}",
+                    "/orgs/${team.githubOrganization.login}/teams/${team.slug}/members?per_page=100&page=${page}",
                     GithubUser[],
                     AppConfiguration.getConfigurationAsBoolean('github.org.refresh'))
 

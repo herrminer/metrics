@@ -53,13 +53,6 @@ class SearchParameters {
     if (chunkSize) {
       this.chunkSize = Integer.parseInt(chunkSize)
     }
-
-    org = properties.getProperty("github.org")
-    if (!org) {
-      def error = "no 'github.org' property in metrics.properties"
-      logger.error error
-      throw new RuntimeException(error)
-    }
   }
 
   void initialize() {
