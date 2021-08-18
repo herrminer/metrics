@@ -49,11 +49,19 @@ class TeamService {
     }
 
     private List<GithubTeam> getTeamsForOrg(String organization) {
-        githubApiClient.getApiResponse("/orgs/${organization}/teams",
-                GithubTeam[],
-                AppConfiguration.getConfigurationAsBoolean('github.org.refresh')).each {
-            it.githubOrganization = new GithubOrganization(login: organization)
+        List<GithubTeam> teams = []
+        int page = 1, resultCount = 1
+        while (resultCount > 0) {
+            def result = githubApiClient.getApiResponse("/orgs/${organization}/teams?page=${page}",
+                    GithubTeam[],
+                    AppConfiguration.getConfigurationAsBoolean('github.org.refresh')).each {
+                it.githubOrganization = new GithubOrganization(login: organization)
+            }
+            teams.addAll(result)
+            resultCount = result.size()
+            page++
         }
+        teams
     }
 
     private List<GithubTeam> getChildTeams(GithubTeam githubTeam) {
