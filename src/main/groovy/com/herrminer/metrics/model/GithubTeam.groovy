@@ -10,6 +10,8 @@ class GithubTeam {
     String slug
     String description
 
+    GithubTeam parent
+
     @JsonProperty('organization')
     GithubOrganization githubOrganization
 
@@ -44,6 +46,7 @@ class GithubTeam {
     public String toString() {
         return "GithubTeam{" +
                 "name='" + name + '\'' +
+                ", parent=" + parent +
                 '}';
     }
 }

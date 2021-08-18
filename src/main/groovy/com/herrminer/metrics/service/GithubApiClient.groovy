@@ -71,6 +71,33 @@ class GithubApiClient {
     objectMapper.readValue(responseText, responseClass)
   }
 
+  def <T> T[] getAllPages(String pathAndQueryString, Class<T[]> responseClass, boolean forceRefresh = false, int pageSize = 30) {
+    def results = []
+
+    def path = new StringBuilder(pathAndQueryString)
+
+    if (path.contains('?')) {
+      path.append('&')
+    } else {
+      path.append('?')
+    }
+
+    if (pageSize > 0) {
+      path.append("per_page=${pageSize}&")
+    }
+
+    def page = 1
+    def callResult = []
+
+    while (page == 1 || callResult.size() == pageSize) {
+      callResult = getApiResponse("${path}page=${page}", responseClass, forceRefresh)
+      results.addAll(callResult)
+      page++
+    }
+
+    results
+  }
+
   private String getHttpResponseText(String url) {
     HttpGet get = new HttpGet(url)
 
