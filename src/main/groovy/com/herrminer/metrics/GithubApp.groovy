@@ -1,5 +1,6 @@
 package com.herrminer.metrics
 
+import com.herrminer.metrics.model.GithubRepository
 import com.herrminer.metrics.model.Organization
 import com.herrminer.metrics.model.PullRequest
 import com.herrminer.metrics.service.*
@@ -26,39 +27,45 @@ class GithubApp {
     OrganizationService organizationService = new OrganizationService(teamService)
     Organization organization = organizationService.loadOrganization(['SyscoCorporation', 'sysco-labs-mobile'])
 
+    RepositoryService repositoryService = new RepositoryService(githubApiClient)
+
     organization.githubOrganizations.each { githubOrganization ->
-      SearchParameters searchParameters = new SearchParameters(props)
-      searchParameters.org = githubOrganization
+      def repositories = repositoryService.getAllRepositories(githubOrganization)
+      logger.info("retrieved ${repositories.size()} repositories for ${githubOrganization}")
 
-      while (searchParameters.advanceChunkDates()) {
 
-        boolean moreResultsAvailable = true
-
-        while (moreResultsAvailable) {
-          def searchResponse = searchService.searchPullRequests(searchParameters)
-
-          if (searchResponse.message) {
-            logger.error "ERROR MESSAGE: ${searchResponse.message}"
-            System.exit(1)
-          }
-
-          searchResponse.items.each { pullRequest ->
-            def user = organization.findUser(pullRequest.user.login)
-            if (user) {
-              logger.debug "adding pull request for user ${pullRequest.user.login}, user ${user}"
-              user.pullRequests.add(pullRequest)
-            } else {
-              addToIgnoredPullRequests(pullRequest)
-            }
-          }
-
-          moreResultsAvailable = searchResponse.totalCount > (searchParameters.page * searchParameters.pageSize)
-
-          if (moreResultsAvailable) {
-            searchParameters.incrementPage()
-          }
-        }
-      }
+//      SearchParameters searchParameters = new SearchParameters(props)
+//      searchParameters.org = githubOrganization
+//
+//      while (searchParameters.advanceChunkDates()) {
+//
+//        boolean moreResultsAvailable = true
+//
+//        while (moreResultsAvailable) {
+//          def searchResponse = searchService.searchPullRequests(searchParameters)
+//
+//          if (searchResponse.message) {
+//            logger.error "ERROR MESSAGE: ${searchResponse.message}"
+//            System.exit(1)
+//          }
+//
+//          searchResponse.items.each { pullRequest ->
+//            def user = organization.findOrCreateUser(pullRequest.user.login)
+//            if (user) {
+//              logger.debug "adding pull request for user ${pullRequest.user.login}, user ${user}"
+//              user.pullRequests.add(pullRequest)
+//            } else {
+//              addToIgnoredPullRequests(pullRequest)
+//            }
+//          }
+//
+//          moreResultsAvailable = searchResponse.totalCount > (searchParameters.page * searchParameters.pageSize)
+//
+//          if (moreResultsAvailable) {
+//            searchParameters.incrementPage()
+//          }
+//        }
+//      }
     }
 
     logIgnoredPullRequests()

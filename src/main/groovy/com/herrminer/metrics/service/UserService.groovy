@@ -1,6 +1,6 @@
 package com.herrminer.metrics.service
 
-import com.herrminer.metrics.AppConfiguration
+
 import com.herrminer.metrics.model.GithubUser
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
